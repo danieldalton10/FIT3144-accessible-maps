@@ -19,9 +19,8 @@ var customsearch = google.customsearch('v1');
 
 // You can get a custom search engine id at
 // https://www.google.com/cse/create/new
-const CX = 'INSERT_YOUR_CX_KEY';
-
-const API_KEY = 'your_google_api_key';
+const CX = process.env.GOOGLE_CX_ID;
+const API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 const SEARCH = 'maps';
 
 customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY }, function(err, resp) {
