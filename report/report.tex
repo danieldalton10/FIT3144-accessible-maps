@@ -1,0 +1,411 @@
+\documentclass[11pt,twoside,a4paper]{article}
+\usepackage{tabularx}
+\begin{document}
+\title{Accessibility of maps for the blind on mobile platforms}
+\author{Daniel Dalton}
+\date{April 2015}
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+Maps or mobile applications that present maps on screen are not usable
+by the blind without modification. Although many applications exist to
+aide with navigation and mobility, few options exist for understanding
+spatial and relative layout of a map.
+The current strategies that are used
+to present map data to the blind will be explored along with
+their benefits and limitations. A mobile solution utilising a web
+service and IOS application will be proposed to provide access to maps
+for the blind in the hope of overcoming some of the current limitations.
+\end{abstract}
+
+\section{Introduction}
+Traditionally, it has been difficult for a vision impaired person to
+access and interpret a map of a particular area. There are limited
+options currently available to access this type of spatial information
+and those options currently available are not always practical or
+realistic. Although over the last decade or so the increased
+availability of navigation apps for mobile platforms has assisted with
+this problem there are still many limitations in conveying spatial data
+efficiently and effectively to a blind user.
+
+The second complication of this problem is that a standard map aimed for
+a visual user contains an overwhelming amount of data, which is
+difficult to convey to a sight impaired user relying exclusively on
+their finger tips or audio for such data. In addition sight impaired
+users may require greater detail about their surroundings to
+successfully navigate the region \cite{Haptimap2012}.
+
+This project seeks to provide a mechanism for a blind or vision impaired
+person to access a map of an area in a practical and timely manner
+gaining the essential information they need to safely and confidently
+navigate. This project relates to the retrieval of spatial information and human
+computer interaction. Ultimately, the project will investigate the most
+appropriate way to provide this spatial information for a given area to
+a blind or vision impaired person utilising a mobile platform. This is a
+conceptual and practical work.
+
+\subsection{Goals and Objectives}
+The aim of this project is to build a web service which has the ability
+to produce a SVG graphic of a particular area. The image should render
+streets, buildings and other places of interest of a neighbourhood. The
+image can then be parsed by the GraVVITAS software for ipad developed by
+Dr Cagatay Goncu. This will facilitate a blind or vision impaired user
+to explore the graphical layout of the neighbourhood rendered by the
+proposed web service. The produced SVG will contain the data required to
+meet the requirements of this solution.
+
+This research will investigate the following two areas:
+\begin{enumerate}
+\item Determine the most effective way to filter information from a map to a form which can be comprehended by someone without the ability to view it visually.
+\item Investigating navigation techniques to navigate the presented information.
+\end{enumerate}
+
+Visual maps contain a considerable amount of information. Not all of
+this is relevant, and it will need to be decided what is crucial
+information and what is not. In addition useful information should be
+presented on the produced map such as buildings within a university
+campus for example.
+
+Conveying the layout of the setting such as where buildings in a
+university campus are relative to each other is the second aspect in
+this research. Devising practical and efficient strategies for a blind
+person to explore the map is critical to its success. The blind user can
+not be expected to scan the map every time they are looking for
+something in its entirety as this is time consuming and tedious.
+
+Ultimately, it is hoped that the final product of the research will
+allow a caller to pass a geographical location to the web service with
+defined bounds and to have a SVG result returned. The SVG result will
+be suitable for access by a blind person on ipad in an effective and
+efficient manner. It is hoped that this can help vision impaired users
+reliably understand their surroundings around them before they set off
+on a trip. Secondly, it is hoped that this can be adapted to a smart
+phone device such as Iphone so that the project can be taken advantage
+of by a blind person while moving around in society although this is
+likely a future addition to the project.
+
+\section{Literature Review}
+\subsection{Current Solutions}
+\subsubsection{Tactile Graphics}
+Historically, the most popular form of conveying diagrams to the vision
+impaired including maps was by means of a tactile graphic, utilising ``swell paper'' and ``thirmoform diagrams''
+\cite{Roswell2003}. Roads, buildings and other points of interest are
+displayed tactically with supporting Braille labels in some cases so that
+readers can identify what each raised point or line represents.
+
+\subsubsection{Virtual Acoustic Map}
+Another alternative is the ``Virtual Acoustic Map'', which associates
+objects on the map with different audible sounds and uses these sounds
+to convey the map data to the blind user. Another implementation is speech output of the layout
+of streets including their direction and name \cite{Hoeckner2012}.
+
+\subsubsection{Virtual Tactile Maps}
+Virtual tactile maps are another approach to communicate map data to a
+site impaired user. This type of presentation utilises tactile displays,
+or other haptic devices such as ``joysticks'' and ``haptic mice''
+\cite{Parente2003}. These devices are used to communicate the input and
+output of the map with the user. In addition acoustic information is
+sometimes used for greater detail.
+
+\subsubsection{Mobile solutions}
+With the innovation of mobile devices came innovative mechanisms to
+present map data to a sight impaired user. Several approaches of this
+nature were explored and presented in \cite{Kane2011}. Edge projection
+is the first technique. This technique relies on projecting map objects
+to two sides of the touch screen. The user can explore the map by moving
+both hands simultaneously to locate the x and y projections. Having
+discovered these the user can then move their hands inwards towards the
+point of interest on the map. Neighbourhood browsing is another
+technique used by mobile applications. The application calculates area
+that is not occupied around each object and reclaims that area. The
+result is when touching the screen the closest object is spoken to the
+user. A gesture can exist to provide directions. Touch and speak is the
+final approach utilising touch input and voice commands to overcome the
+inefficiency of exploring the map.
+
+Various mobile app solutions were explored first hand on the IOS and
+Android platforms. They will be summarised here.
+
+Apple's maps application facilitates exploring a map and gaining spatial
+insight among other features. When Apple maps is presenting a map of
+some location the user may explore with one finger to hear names of
+streets, towns or larger areas such as cities and states (depending on
+the zoom factor). If the map is showing streets the user can hold their
+finger on a street to trace it. The user may also use standard voice
+over flicks to flick between objects on the map eg. cities for a map of
+Australia. However, such a technique will give the user very little
+spatial layout information.  The user can control the map
+easily. Scrolling the map left/right or up/down is straight
+forward. Zooming is also very easy, but it seems hard to make the map
+zoom in on a particular area such as Sydney for a map of
+Australia. Double tapping the city to zoom in on and then zooming in
+seems to work sometimes. As the zoom changes or the map is shifted voice
+over will announce a quick summary of the map such as what is on
+screen. Works ok, but sometimes overwhelming.
+Apple maps was tested with a map of Australia. Exploring with one finger
+was painful and time consuming as you must touch a specific area of the
+map to hear the name of a place spoken. In other words there is a lot of
+empty space on the map where the user is given no feedback as they move
+their finger. Moving around the map is not particularly efficient.
+
+Blind square is a very popular app among the vision impaired. The
+description here is based off the app’s description in the app store as
+`the app costs \$37 and could not be tested first hand \cite{BlindSquare}.
+Blind square claims to be the most popular gps app for the blind. ``When
+Blind Square has determined your location using your iOS-device’s GPS
+capabilities, it will look up information about your surroundings on
+FourSquare and Open Street Map. Employing unique algorithms, it will
+then ascertain the information most useful to you and speak it in a
+clear synthetic voice'' \cite{BlindSquare}. Blind square will announce places of interest
+and your location as you move. If you set a destination it will also
+indicate the clock direction of the place from you and the distance it
+is from you has you move towards it. Blind square facilitates marking
+your current location so that you can easily find this later on. It
+appears that blind square is very good at speaking important information
+back to the user, but does not provide a way for the blind user to
+explore the area in a tactile fashion and gain a spatial layout
+understanding.
+
+Ariadne gps is an app available for ipad and Iphone. It has a variety of
+navigational and mapping features. For the scope of this project the
+mapping functionality will be described.
+The app has two main features of interest, “explore an area” and “look
+around”. Both these modes present a map to the user. Look around will
+position the map to the location of the device in the direction that the
+user is facing. When the map is shifted the user will hear which
+direction it is shifted relative to the way they are facing
+eg. ``forwards'', ``backwards'', ``left'' or ``right''. The explore area allows
+the map to be positioned at some fixed address. Moving the map around
+says east/west/north/south rather than left/right etc.
+Both modes have exactly the same functionality. Moving the map around in
+the four compass directions. After each motion the app will speak what
+area the map is centred around and the radius size. Zooming in and
+zooming out works with a pinch. The map will update and speak to the
+user eg. “showing localities and cities” or “ streets and
+numbers”. Otherwise, the map allows the user to explore the
+neighbourhood by tracing their finger around the screen and street names
+and intersections get announced along with places of interest
+eg. “Monash university Clayton campus” and street numbers. The user can
+locate a point on the screen and have the map re-calibrated and centred
+around that point.
+
+Intersection explorer is an android application by Google designed for
+the vision impaired. It allows a user to navigate a neighbourhood with
+their finger to explore streets and intersections to gain a spatial
+layout of streets.
+The user moves their finger around on the screen in a direction until
+they hear that their is a street in the given direction that they would
+like to follow. Releasing the finger will move down the street to the
+next intersection. This pattern is repeated so that the user can
+understand how streets are set out and intersect each
+other. Unfortunately the app is only good for streets and
+intersections. It does not announce any street numbers or places. It
+does have some problems as many streets are spoken as “unnamed road”.
+
+\subsection{Limitations of existing work}
+Although the discussed solutions do a reasonable job at making maps
+accessible to the sight impaired they do have some substantial
+limitations. The manual techniques such as tactile graphics are very
+resource intensive to produce. They require work on the part of a
+sighted transcriber for every map that a blind user may wish to
+explore. In addition this is an expensive process. The tactile maps are
+not overly portable and can not be used while walking for instance.
+
+The scope of this project is to develop a mobile solution to this
+problem. The rest of the limitations will discuss those faced by current
+apps on the market. As indicated apps such as apple maps are inefficient
+to navigate and for instance do not speak when the user touches empty
+space. The problem is that the map may potentially contain a vast amount
+of empty space. Other apps such as intersection explorer do not show
+places or points of interest on the map which is valuable information
+for a blind user. 
+
+Ariadne GPS is perhaps the best solution currently available. It has a
+variety of features, but also some important limitations. Navigating the
+map is still done by exploring with the finger tip which is relatively
+slow and it only shows some places. It does not necessarily provide all
+of the details that the user may require.
+
+Although there are many other navigational apps designed for the vision
+impaired these are designed primarily for guided directions or finding
+places near by. They do not make any effort to present any form of map
+or relative spatial layout information.
+
+\subsection{Opportunities}
+Presently, there is no solution which depicts buildings and their shapes
+as well as entrances for example. In addition there is no way to
+determine the relative spatial layout between two objects on the map
+aside from tracing with the finger tip which is a fundamental point of
+this research. However, perhaps most importantly filtering is quite
+limited on all solutions. If the blind user is only interested in cafes
+they will have a hard time locating these in among all of the other
+points of interest on the map. This area will also be addressed by the
+proposed solution.
+
+\section{Requirements}
+
+\section{Design}
+
+\subsection{User Interface Design}
+\subsubsection{Opening the map}
+\textbf{Name:} Open map.\\
+\textbf{Identifier:} UC1\\
+\textbf{Description:}\\
+Load a map of a given area of the user's choosing.
+
+\textbf{Preconditions:}\\
+The application has access to the web service.\\
+\textbf{Postconditions:}\\
+A map of the chosen area is presented provided the chosen location was
+valid.
+
+\textbf{Basic course of action}\\
+\begin{tabularx}{\textwidth}{ |X|X|}
+  \hline
+  \textbf{User} & \textbf{System}\\
+  \hline
+  1. User selects ``Use current location'' or ``Enter address manually''
+  [Alt A] & \\
+  \hline
+  & 2. System presents the map centred around the desired region with
+  default zoom factors and radius.\\
+  \hline
+\end{tabularx}
+
+\textbf{Alternate course A}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \hline
+  \textbf{User} & \textbf{System}\\
+  \hline
+  A1. The user selects ``enter address manually''. & \\
+  \hline
+  & A2. System displays text field for address input.\\
+  \hline
+  A3. User types address to centre map around. & A4. System populates
+  auto-completion area of potential addresses.\\
+  \hline
+  A5. User makes the selection of the address. The use case now
+  continues at step 2 in the basic course. & \\
+  \hline
+\end{tabularx}
+
+\textbf{Name:} Points of interest\\
+\textbf{Identifier:} UC2\\
+\textbf{Description:}\\
+Allow the user to pick points of interest they would like to see on the
+map in addition to the basic features such as streets. This filtering is
+done by displaying possible categories to filter. Categories should
+match those offered by the Google places API such as ``cafe''.\\
+\textbf{Preconditions:}\\
+A map of a given area is loaded and being presented.\\
+\textbf{Postconditions:}\\
+The presented map now reflects the changes in the category filters.
+
+\textbf{Basic course of action:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{User} & \textbf{System}\\
+  \hline
+  1. User performs a two finger twist (roter gesture). & \\
+  \hline
+  & 2. System announces ``Points of interest''.\\
+  \hline
+  3. User flicks up or down until desired category is heard. & \\
+  \hline
+  4. Double tap anywhere on screen to activate selected
+  category. & \\
+  \hline
+  & 5. System updates map to show points matching the newly selected
+  category. [Alternate a].\\
+  \hline
+\end{tabularx}
+
+\textbf{Alternate course A}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{User} & \textbf{System}\\
+  \hline
+  & A5. This category is already being displayed on the map the result
+  is to deactivate it and map no longer shows places of this type.\\
+  \hline
+  & A6. Use case ends.\\
+  \hline
+\end{tabularx}
+
+\textbf{Name:} Depict a path between two distinct points\\
+\textbf{Identifier:} UC3\\
+\textbf{Description:}\\
+A user has two distinct points on the map they wish to find a path
+between following roads and other pathways. This is not necessarily
+trivial for a blind user to achieve.\\
+\textbf{Preconditions:}
+There is a map of an area being displayed on screen.\\
+The map has at least two distinct points.\\
+\textbf{Postconditions:}\\
+Map is updated to play a unique tone whenever the newly created pathway
+is touched or approached.\\
+No change to map if a path could not be found.
+
+\textbf{Basic course of action:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{User} & \textbf{System}\\
+  \hline
+  1. User presses and holds their finger on point a, the first point. &
+  \\
+  \hline
+  2. The user taps a second (distinct) point on the map (point B). & \\
+  \hline
+  3. The user releases both fingers & \\
+  \hline
+  & 4. System calculates and presents a path between the points on the
+  map. An overview of this path is spoken. back to the user. [Alternate A]\\
+  \hline
+  5. User explores map with a single finger. & 6. When the user touches
+  the path the pathway tone is played back to the user.\\
+  \hline
+\end{tabularx}
+
+\textbf{Alternate course A}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{User} & \textbf{System}\\
+  \hline
+  & A4. System could not find a path between the two points, error
+  message is spoken.\\
+  \hline
+  & A5. Use case ends\\
+  \hline
+\end{tabularx}
+
+\textbf{Name:} Remove paths\\
+\textbf{Identifier:} UC4\\
+\textbf{Description:}\\
+Clear the map of any paths if any have been created by UC3.\\
+\textbf{Preconditions:}\\
+Map of an area is currently being shown.\\
+At least one pathway is depicted on the map otherwise it has no
+effect.\\
+\textbf{Postconditions:}\\
+Remove all pathways from the map.
+
+\textbf{Basic course of action:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{User} & \textbf{System}\\
+  \hline
+  1. Two finger twist action (roter gesture). & \\
+  \hline
+  & 2. System announces ``clear paths''\\
+  \hline
+  3. User double taps anywhere on screen. & \\
+  \hline
+  & 4. System clears map of paths and speaks ``paths cleared''.\\
+  \hline
+\end{tabularx}
+  
+\subsection{Web Service Design}
+
+\section{Implementation}
+
+\section{Results and Evaluation}
+
+\section{Conclusion}
+
+\end{document}
