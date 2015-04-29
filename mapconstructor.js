@@ -56,7 +56,7 @@ function addPlacesToMap (key, parameters, map) {
 
 function toSVG (map) {
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
-	    + "\">\n";
+	    + "\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\”>\n";
     for (var i = 0; i < map.mapPoints.length; i++) {
 	svg += "<circle cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
 	    Math.round(map.mapPoints[i].y) + "\" r=\"20\" stroke=\"black\" stroke-width=\"3\" fill=\"red\" />\n";
