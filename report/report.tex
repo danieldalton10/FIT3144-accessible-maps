@@ -142,7 +142,7 @@ zoom in on a particular area such as Sydney for a map of
 Australia. Double tapping the city to zoom in on and then zooming in
 seems to work sometimes. As the zoom changes or the map is shifted voice
 over will announce a quick summary of the map such as what is on
-screen. Works ok, but sometimes overwhelming.
+screen. Works OK, but sometimes overwhelming.
 Apple maps was tested with a map of Australia. Exploring with one finger
 was painful and time consuming as you must touch a specific area of the
 map to hear the name of a place spoken. In other words there is a lot of
@@ -245,21 +245,23 @@ proposed solution.
 
 \section{Requirements}
 
-\section{Design}
+The project is broken into two components the user interface and web
+service. The user interface relies on the web service to present the map
+experience to the sight impaired user.
 
-\subsection{User Interface Design}
+\subsection{User interface}
 \subsubsection{Opening the map}
 \textbf{Name:} Open map.\\
 \textbf{Identifier:} UC1\\
 \textbf{Description:}\\
-Load a map of a given area of the user's choosing.
-
+Load a map of a given area of the user's choosing.\\
 \textbf{Preconditions:}\\
 The application has access to the web service.\\
 \textbf{Postconditions:}\\
 A map of the chosen area is presented provided the chosen location was
 valid.
 
+\noindent
 \textbf{Basic course of action}\\
 \begin{tabularx}{\textwidth}{ |X|X|}
   \hline
@@ -273,6 +275,7 @@ valid.
   \hline
 \end{tabularx}
 
+\noindent 
 \textbf{Alternate course A}\\
 \begin{tabularx}{\textwidth}{ |X|X| }
   \hline
@@ -290,6 +293,8 @@ valid.
   \hline
 \end{tabularx}
 
+\subsubsection{Filtering points of interest}
+\noindent
 \textbf{Name:} Points of interest\\
 \textbf{Identifier:} UC2\\
 \textbf{Description:}\\
@@ -302,6 +307,7 @@ A map of a given area is loaded and being presented.\\
 \textbf{Postconditions:}\\
 The presented map now reflects the changes in the category filters.
 
+\noindent
 \textbf{Basic course of action:}\\
 \begin{tabularx}{\textwidth}{ |X|X| }
   \textbf{User} & \textbf{System}\\
@@ -320,6 +326,7 @@ The presented map now reflects the changes in the category filters.
   \hline
 \end{tabularx}
 
+\noindent
 \textbf{Alternate course A}\\
 \begin{tabularx}{\textwidth}{ |X|X| }
   \textbf{User} & \textbf{System}\\
@@ -331,13 +338,15 @@ The presented map now reflects the changes in the category filters.
   \hline
 \end{tabularx}
 
+\subsubsection{Showing a path between two points on the map}
+\noindent
 \textbf{Name:} Depict a path between two distinct points\\
 \textbf{Identifier:} UC3\\
 \textbf{Description:}\\
 A user has two distinct points on the map they wish to find a path
 between following roads and other pathways. This is not necessarily
 trivial for a blind user to achieve.\\
-\textbf{Preconditions:}
+\textbf{Preconditions:}\\
 There is a map of an area being displayed on screen.\\
 The map has at least two distinct points.\\
 \textbf{Postconditions:}\\
@@ -345,6 +354,7 @@ Map is updated to play a unique tone whenever the newly created pathway
 is touched or approached.\\
 No change to map if a path could not be found.
 
+\noindent
 \textbf{Basic course of action:}\\
 \begin{tabularx}{\textwidth}{ |X|X| }
   \textbf{User} & \textbf{System}\\
@@ -364,6 +374,7 @@ No change to map if a path could not be found.
   \hline
 \end{tabularx}
 
+\noindent
 \textbf{Alternate course A}\\
 \begin{tabularx}{\textwidth}{ |X|X| }
   \textbf{User} & \textbf{System}\\
@@ -375,6 +386,7 @@ No change to map if a path could not be found.
   \hline
 \end{tabularx}
 
+\noindent
 \textbf{Name:} Remove paths\\
 \textbf{Identifier:} UC4\\
 \textbf{Description:}\\
@@ -386,6 +398,7 @@ effect.\\
 \textbf{Postconditions:}\\
 Remove all pathways from the map.
 
+\noindent
 \textbf{Basic course of action:}\\
 \begin{tabularx}{\textwidth}{ |X|X| }
   \textbf{User} & \textbf{System}\\
@@ -399,6 +412,108 @@ Remove all pathways from the map.
   & 4. System clears map of paths and speaks ``paths cleared''.\\
   \hline
 \end{tabularx}
+
+\subsection{Web Service}
+
+The web service is invoked by means of HTTP parameters by means of a
+HTTP request. The following use cases will be necessary for the web
+service to fulfill its requirements to the UI.
+
+\subsubsection{Request an SVG map}
+\noindent
+\textbf{Name:} Produce SVG map\\
+\textbf{Identifier:} UC5\\
+\textbf{Description:}\\
+Construct an SVG map of an area of certain bounds with data from one or
+more third party services. Return the resulting data in the form of an
+SVG image.\\
+\textbf{Preconditions:}\\
+Third party services are available\\
+Request is a correctly formatted HTTP request.\\
+Request contains at a minimum radius, latitude and longitude parameters.\\
+\textbf{Postconditions:}\\
+None\\
+
+\noindent
+\textbf{Basic course of action:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{Client} & \textbf{System hosting service}\\
+  \hline
+  1. Client provides a HTTP request with parameters radius, latitude, longitude,
+  filter, paths. & \\
+  \hline
+  & 2. System contacts open maps and additional third party services to acquire data matching
+  filter list. [Alternate A], [Alternate B], [Alternate C], [Alternate D]\\
+  \hline
+  & 3. System combines all retrieved data into a single accessible
+  SVG.\\
+  \hline
+  & 4. System returns the svg.\\
+  \hline
+  5. Client receives the svg image. & \\
+  \hline
+\end{tabularx}
+
+\noindent
+\textbf{Alternate course A:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{Client} & \textbf{System hosting service}\\
+  \hline
+  & A2. Radius, latitude or longitude of the centre point is missing, return
+  error code to client.\\
+  \hline
+  A3. Client receives error code. & \\
+  \hline
+  A4. Use case terminates. & \\
+  \hline
+\end{tabularx}
+
+\noindent
+\textbf{Alternate course B:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{Client} & \textbf{System hosting service}\\
+  \hline
+  & A2. One of the third party services is down return an error code
+  indicating this to the client.\\
+  \hline
+  A3. Client receives error code that external services are down. & \\
+  \hline
+  A4. Use case terminates. & \\
+  \hline
+\end{tabularx}
+
+\noindent
+\textbf{Alternate course C:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{Client} & \textbf{System hosting service}\\
+  \hline
+  & A2. Filter parameter contains a value such as ``cafe'' or
+  ``restaurant'', system constructs a suitable query.\\
+  \hline
+  & A3. The query is sent to the google places API.\\
+  \hline
+  & A4. System receives the place data back and converts it to a
+  standardised form.\\
+  \hline
+  & A5. Use case continues at step 3.\\
+  \hline
+\end{tabularx}
+
+\noindent
+\textbf{Alternate course D:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{Client} & \textbf{System hosting service}\\
+  \hline
+  & A2. System creates objects to be placed on the SVG representing a
+  path between two unique points within the SVG.\\
+  \hline
+  & A3. Use case continues at 3.\\
+  \hline
+\end{tabularx}
+
+\section{Design}
+
+\subsection{User Interface Design}
   
 \subsection{Web Service Design}
 
