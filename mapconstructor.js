@@ -6,9 +6,10 @@ var apikey = process.env.GOOGLE_PLACES_API_KEY;
  * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
  */
 var parameters = {
-    location:[-33.8670522, 151.1957362],
-    types:"cafe", 
-    radius:150
+//-33.8670522, 151.1957362
+    location:[-37.870195300, 145.0423],
+    types:"food", 
+    radius:1000
 };
 
 function Map (width, height, centre) {
@@ -29,6 +30,7 @@ function Map (width, height, centre) {
 						 mapCentre);
 	    this.mapPoints[i].name = points[i].name;
 	    this.mapPoints[i].vicinity = points[i].vicinity;
+	    this.mapPoints[i].id = points[i].id;
 	    console.log(this.mapPoints[i].name + ": " +
 			this.mapPoints[i].vicinity + " (" + this.mapPoints[i].x +", " +
 			this.mapPoints[i].y + ")");
@@ -55,13 +57,40 @@ function addPlacesToMap (key, parameters, map) {
 }
 
 function toSVG (map) {
+    var colour = 0xFF0000;
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
-	    + "\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\”>\n";
+	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
+	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
+    var metadata = "<metadata id=\"1401062652130\" title=\"Pyrmont Sydney\""
+	    + " description=\"Places in Pyrmont Sydney\""
+	    + " category=\"map\">\n"
+	    + "<summary>\n"
+	    + "</summary>\n";
+
     for (var i = 0; i < map.mapPoints.length; i++) {
-	svg += "<circle cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
-	    Math.round(map.mapPoints[i].y) + "\" r=\"20\" stroke=\"black\" stroke-width=\"3\" fill=\"red\" />\n";
+	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
+	    Math.round(map.mapPoints[i].y) + "\" r=\"20\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
+	metadata += "    <gravvitas>\n"
+	    + "<id>" + map.mapPoints[i].id + "</id>\n"
+	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
+	    + "      <bordercolor>\n"
+	    + "</bordercolor>\n"
+	    + "<cornercolor>\n"
+	    + "</cornercolor>\n"
+	    + "<audio>\n"
+	    + "</audio>\n"
+	    + "<volume>\n"
+	    + "</volume>\n"
+	    + "<text>"+escape(map.mapPoints[i].name)+"</text>\n"
+	    + "      <vibration>\n"
+	    +"      </vibration>\n"
+	    +"      <annotation>\n"
+	    +"      </annotation>\n"
+	    +"    </gravvitas>\n";
+	++colour;
     }
-    svg += "</svg>";
+    metadata += "  </metadata>\n";
+    svg += metadata + "</svg>";
     return svg;
 }
 
