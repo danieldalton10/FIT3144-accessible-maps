@@ -1,3 +1,7 @@
+/**
+ * Functions used to construct an svg map
+*/
+
 var GooglePlaces = require("googleplaces");
 var utilities = require("./utilities.js");
 
@@ -12,16 +16,33 @@ var parameters = {
     radius:1000
 };
 
+/**
+ * Define a map object. This object contains methods related to
+ *  manipulating the map data stored as members of the object.
+ * @param width the width of the map in svg pixels 
+ * @param height The map height in SVG pixels.
+ * @param centre An object with lat lng properties which the map will be
+ *  centred around.
+*/
 function Map (width, height, centre) {
     this.height = height;
     this.width = width;
     this.centre = centre;
     this.mapPoints = new Array();
+
+    /**
+     * Add points to the map. Points are scaled to fit the map. This can
+     *  be used as a callback eg. from a function who's job it is to
+     *  retrieve this data from the external service.
+     * @param points an array of points that have geometry.lat/lng, name, id 
+     * and vicinity properties.
+     */
     this.addPoints = function (points) {
 	var maxDistance = findMaxDistance(centre, points).distance;
 	var mapCentre = {x:width/2, y:height/2};
 	var maxMapDistance = Math.min(width, height)/2;
 	for (var i = 0; i < points.length; i++) {
+	    // scale for the map
 	    var distance = (utilities.distance(centre, points[i].geometry.location) /
 			maxDistance) * maxMapDistance;
 	    var bearing = utilities.initialBearing(centre,
@@ -39,6 +60,17 @@ function Map (width, height, centre) {
     };
 }
 
+/**
+ * Calculate the x and y values for a geographical point on a flat grid.
+ * @param distance The distance from the centre of the map to the point
+ *  in question.
+ * @param angle The bearing or angle from the centre of the map to the
+ *  point in question. Specify in degrees.
+ * @param centre The geographical point the map is centred around. Must
+ *  be an object with lat and lng properties.
+ * @return An object with x and y properties where the values are grid
+ *  coordinates that can be scaled for a map.
+ */
 function computeMapPoint (distance, angle, centre) {
     var dx = Math.sin(utilities.toRadians(angle)) * distance;
     var dy = Math.cos(utilities.toRadians(angle)) * distance;
@@ -46,6 +78,15 @@ function computeMapPoint (distance, angle, centre) {
 	    y:centre.y + dy};
 }
 
+/**
+ * Perform a google places search and add places to the map by means of
+ *  the callback method map.addPoints
+ * @param key Google places API key
+ * @param parameters Parameters for the places api.
+ * @param map The map to add the places to with the call back method
+ *  addPoints(arrayOfPlaces)
+ * @return nothing 
+ */
 function addPlacesToMap (key, parameters, map) {
     var googlePlaces = new GooglePlaces(key, "json");
     googlePlaces.placeSearch(parameters, function (error, response) {
@@ -56,6 +97,11 @@ function addPlacesToMap (key, parameters, map) {
     });
 }
 
+/**
+ * Convert a map object to svg.
+ * @param map A Map object to generate a SVG for.
+ * @return svg string for map.
+*/
 function toSVG (map) {
     var colour = 0xFF0000;
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
