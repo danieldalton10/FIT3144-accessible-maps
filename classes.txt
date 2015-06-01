@@ -1,4 +1,5 @@
 Class Map {
+  MapPoints[] mapPoints
   Map (int svgWidth, int svgHeight, Point.geometry.Location centralPoint)
   void addPoints(Point[] points)
 }
@@ -37,3 +38,13 @@ class PlaceSearchParameters {
   string types
   int radius
 }
+
+class MapPoint {
+  string name
+  string vicinity
+  string id 
+  int x
+  int y
+}
+
+Map has many MapPoint 
