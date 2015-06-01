@@ -1,0 +1,39 @@
+Class Map {
+  Map (int svgWidth, int svgHeight, Point.geometry.Location centralPoint)
+  void addPoints(Point[] points)
+}
+
+class PointsOfInterestSearch {
+  void addPlacesToMap (string key, PlaceSearchParameters parameters, Map map)
+}
+
+class Utilities {
+  int toRadians(int degrees) 
+  DistanceResponse findMaxDistance (Point.Geometry.Location centre, Point[] places)
+  int distance (Point.Geometry.Location location1, Point.Geometry.Location location2)
+  int initialBearing (Point.Geometry.Location location1, Point.Geometry.Location location2)
+}
+
+class Point {
+  class Geometry {
+    class Location {
+      double lat;
+      double lng;
+    }
+  }
+  string vicinity
+  string id
+  string name
+}
+
+
+class DistanceResponse {
+  int index
+  int distance
+}
+
+class PlaceSearchParameters {
+  double[] location
+  string types
+  int radius
+}
