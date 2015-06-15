@@ -4,6 +4,7 @@
 
 var GooglePlaces = require("googleplaces");
 var utilities = require("./utilities.js");
+var fs = require('fs')
 
 var apikey = process.env.GOOGLE_PLACES_API_KEY;
 var centre = new GeographicalPoint("abc", -37.875260, 145.164821, "Centre", "");
@@ -15,7 +16,7 @@ var parameters = {
 //-33.8670522, 151.1957362
     location:[centre.lat, centre.lng],
     types:"food", 
-    radius:300
+    radius:1000
 };
 
 /**
@@ -31,6 +32,7 @@ function Map (centre, radius) {
     this.width = Math.round(radius * 5/3);
     this.centre = centre;
     this.mapPoints = new Array();
+    this.mapLines = new Array();
     this.mapCentre = {x:this.width/2, y:this.height/2};
     /**
      * Add points to the map. Points are scaled to fit the map. This can
@@ -44,7 +46,36 @@ function Map (centre, radius) {
 	var distance = utilities.distance(centre, point);
 	var bearing = utilities.initialBearing(centre, point);
 	this.mapPoints[this.mapPoints.length] = new MapPoint (point, distance, bearing, this.mapCentre);
-//	console.log(point.name + " " + this.mapPoints[this.mapPoints.length-1].x + " " + this.mapPoints[this.mapPoints.length-1].y);
+    }
+
+    this.addLine = function (id, coordinates, name) {
+	var line = new MapLine (id,
+				coordinates,
+				name,
+				this.centre, this.mapCentre, this.width, this.height);
+	if (line.coordinates.length > 0) {
+	    this.mapLines[this.mapLines.length] = line;
+	}
+    }
+
+    function MapLine (id, coordinates, name, centre, mapCentre, width, height) {
+	this.id = id;
+	this.name = escape(name).replace(/%20/g, " ");
+	this.coordinates = new Array();
+	for (var i = 0; i < coordinates.length; i++) {
+	    var point = {lat:coordinates[i][1], lng:coordinates[i][0]};
+	    var distance = utilities.distance(centre, point);
+	    var bearing = utilities.initialBearing(centre, point);
+	    var dx = Math.sin(utilities.toRadians(bearing)) * distance;
+	    var dy = Math.cos(utilities.toRadians(bearing)) * distance;
+	    var xCord = mapCentre.x + dx;	    
+	    var yCord = mapCentre.y - dy;
+	    if (xCord > 0 && xCord < width && yCord > 0 
+		&& yCord < height) {
+		this.coordinates[this.coordinates.length] = xCord;
+		this.coordinates[this.coordinates.length] = yCord;
+	    }
+	}
     }
 
     /**
@@ -92,6 +123,23 @@ function locationSearchService (key, parameters, map) {
 					      response.results[i].vicinity);
 	    map.addPoint (point);
 	}
+//	console.log(toSVG(map));
+    });
+}
+
+function openStreetService (map) {
+    fs.readFile('glen.json', 'utf8', function (err,data) {
+	if (err) {
+	    return console.log(err);
+	}
+	results = JSON.parse(data);
+	points = new Array();
+	for (var i = 0; i < results.features.length; i++) {
+	    if (results.features[i].properties.name == "Springvale Road") {
+		map.addLine (results.features[i].id,
+			     results.features[i].geometry.coordinates, results.features[i].properties.name);
+	    }
+	}
 	console.log(toSVG(map));
     });
 }
@@ -114,7 +162,7 @@ function toSVG (map) {
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
 	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
 	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    var metadata = "<metadata id=\"1401062652130\" title=\"Glen waverley6\""
+    var metadata = "<metadata id=\"1401062652130\" title=\"springvale rd\""
 	    + " description=\"Places in Pyrmont Sydney\""
 	    + " category=\"map\">\n"
 	    + "<summary>\n"
@@ -122,7 +170,7 @@ function toSVG (map) {
 
     for (var i = 0; i < map.mapPoints.length; i++) {
 	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
-	    Math.round(map.mapPoints[i].y) + "\" r=\"20\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
+	    Math.round(map.mapPoints[i].y) + "\" r=\"70\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
 	metadata += "    <gravvitas>\n"
 	    + "<id>" + map.mapPoints[i].id + "</id>\n"
 	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
@@ -143,10 +191,42 @@ function toSVG (map) {
 	    +"    </gravvitas>\n";
 	++colour;
     }
+    for (var i = 0; i < map.mapLines.length; i++) {
+	svg += "<polyline id=\"" + map.mapLines[i].id + "\" points=\"";
+	for (var j = 0; j < map.mapLines[i].coordinates.length; j+=2) {
+	    svg += Math.round(map.mapLines[i].coordinates[j]) + "," +
+		Math.round(map.mapLines[i].coordinates[j+1]);
+	    if (j+2 < map.mapLines[i].coordinates.length) {
+		svg += " ";
+	    }
+	}
+	svg += "\" style=\"stroke: rgb(128, 150, 147); stroke-width: 10px; stroke-linejoin: round; fill: none; cursor: default;\" class=\"\"/>\n";
+	metadata += "    <gravvitas>\n"
+	    + "<id>" + map.mapLines[i].id + "</id>\n"
+	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
+	    + "      <bordercolor>\n"
+	    + "</bordercolor>\n"
+	    + "<cornercolor>\n"
+	    + "</cornercolor>\n"
+	    + "<audio>\n"
+	    + "</audio>\n"
+	    + "<volume>\n"
+	    + "</volume>\n"
+	    + "<text>"+map.mapLines[i].name
+	    +"</text>\n"
+	    + "      <vibration>\n"
+	    +"      </vibration>\n"
+	    +"      <annotation>\n"
+	    +"      </annotation>\n"
+	    +"    </gravvitas>\n";
+	++colour;
+    }
     metadata += "  </metadata>\n";
     svg += metadata + "</svg>";
     return svg;
 }
 
-var map = new Map (centre, 300);
-locationSearchService (apikey, parameters, map);
+var map = new Map (centre, 1000);
+//locationSearchService (apikey, parameters, map);
+openStreetService(map);
+
