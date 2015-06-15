@@ -1,0 +1,108 @@
+digraph G {
+        fontname = "Bitstream Vera Sans"
+        fontsize = 8
+
+        node [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+                shape = "record"
+        ]
+
+        edge [
+                fontname = "Bitstream Vera Sans"
+                fontsize = 8
+        ]
+
+	Utilities [
+	    label = "{Utilities||+ toRadians(int degrees) : double \l+
+	    findMaxDistance (GeographicalPoint centre, GeographicalPoint[] points) : DistanceResponse\l+ distance (GeographicalPoint location1, GeographicalPoint location2) : int\l+ initialBearing(GeographicalPoint location1, GeographicalPoint location2) : int\l}"
+        ]
+
+	DistanceResponse [
+	    label = "{DistanceResponse|+ index: int\l+ distance : int\l|}"
+        ]
+
+	Map [
+	    label = "{Map|+ mapPoints : MapPoint[]\l|+ Map (int svgWidth, int svgHeight, GeographicalPoint centre) : Map\l+ addPoint (GeographicalPoint point) : void\l}"
+        ]
+
+	MapPoint [
+	    label = "{MapPoint|+ x : double\l+ y : double\l+ name : string\l+ description : string\l| +MapPoint(GeographicalPoint point) : MapPoint\l}"
+        ]
+
+	// subclass relation MapPoint subclasses Map
+        edge [
+                arrowhead = "empty"
+        ]
+	MapPoint -> Map
+
+	// Map has many MapPoint
+	edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	  Map -> MapPoint  [taillabel="1", headlabel="*"]
+	}
+	    
+	GeographicalPoint [
+	    label = "{GeograpicalPoint|+ lat : double\l+ lng : double\l+ name : string\l+ description : string\l| +GeographicalPoint(double lat, double lng, string name) : GeographicalPoint\l}"
+        ]
+
+	LocationSearchService [
+	    label = "{LocationSearchService||+ addPointsToMap(Map map, SearchParameters parameters)}"
+        ]
+
+	SearchParameters [
+	    label = "{SearchParameters|+ double minLat\l+ double
+	    minLng\l+ double maxLat\l+ double maxLng\l+ string types\l|+
+	    SearchParameters(double centreLat, double centreLng, int
+	    radius, string types)\l}"
+        ]
+	// subclass relation SearchParameters subclasses LocationSearchService
+        edge [
+                arrowhead = "empty"
+        ]
+	SearchParameters -> LocationSearchService
+
+	// dependency 
+	edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	    Map -> GeographicalPoint [arrowhead="vee", style="dashed"]
+       }
+
+	edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	    MapPoint -> GeographicalPoint [arrowhead="vee", style="dashed"]
+       }
+
+	edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	    LocationSearchService -> SearchParameters [arrowhead="vee", style="dashed"]
+       }
+
+	edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	    LocationSearchService -> Map [arrowhead="vee", style="dashed"]
+       }
+
+	edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	    Utilities -> DistanceResponse [arrowhead="vee", style="dashed"]
+       }
+
+	edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	    Utilities -> GeographicalPoint [arrowhead="vee", style="dashed"]
+       }
+
+       edge [arrowhead="none", fontname=Verdana, fontsize=8];
+	subgraph {
+	  rank=same;
+	    Map -> Utilities [arrowhead="vee", style="dashed"]
+       }
+}
