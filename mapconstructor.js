@@ -6,14 +6,16 @@ var GooglePlaces = require("googleplaces");
 var utilities = require("./utilities.js");
 
 var apikey = process.env.GOOGLE_PLACES_API_KEY;
+var centre = new GeographicalPoint("abc", -37.875260, 145.164821, "Centre", "");
+
 /**
  * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
  */
 var parameters = {
 //-33.8670522, 151.1957362
-    location:[-37.870195300, 145.0423],
+    location:[centre.lat, centre.lng],
     types:"food", 
-    radius:1000
+    radius:300
 };
 
 /**
@@ -24,12 +26,12 @@ var parameters = {
  * @param centre An object with lat lng properties which the map will be
  *  centred around.
 */
-function Map (width, height, centre) {
-    this.height = height;
-    this.width = width;
+function Map (centre, radius) {
+    this.height = Math.round(radius * 5/3);
+    this.width = Math.round(radius * 5/3);
     this.centre = centre;
     this.mapPoints = new Array();
-
+    this.mapCentre = {x:this.width/2, y:this.height/2};
     /**
      * Add points to the map. Points are scaled to fit the map. This can
      *  be used as a callback eg. from a function who's job it is to
@@ -37,46 +39,37 @@ function Map (width, height, centre) {
      * @param points an array of points that have geometry.lat/lng, name, id 
      * and vicinity properties.
      */
-    this.addPoints = function (points) {
-	var maxDistance = findMaxDistance(centre, points).distance;
-	var mapCentre = {x:width/2, y:height/2};
-	var maxMapDistance = Math.min(width, height)/2;
-	for (var i = 0; i < points.length; i++) {
-	    // scale for the map
-	    var distance = (utilities.distance(centre, points[i].geometry.location) /
-			maxDistance) * maxMapDistance;
-	    var bearing = utilities.initialBearing(centre,
-					       points[i].geometry.location);
-	    this.mapPoints[i] = computeMapPoint (distance, bearing,
-						 mapCentre);
-	    this.mapPoints[i].name = points[i].name;
-	    this.mapPoints[i].vicinity = points[i].vicinity;
-	    this.mapPoints[i].id = points[i].id;
-	    console.log(this.mapPoints[i].name + ": " +
-			this.mapPoints[i].vicinity + " (" + this.mapPoints[i].x +", " +
-			this.mapPoints[i].y + ")");
-	}
-	console.log(toSVG(this));
-    };
+    this.addPoint = function (point) {
+	// scale for the map
+	var distance = utilities.distance(centre, point);
+	var bearing = utilities.initialBearing(centre, point);
+	this.mapPoints[this.mapPoints.length] = new MapPoint (point, distance, bearing, this.mapCentre);
+//	console.log(point.name + " " + this.mapPoints[this.mapPoints.length-1].x + " " + this.mapPoints[this.mapPoints.length-1].y);
+    }
+
+    /**
+     * Calculate the x and y values for a geographical point on a flat grid.
+     * @param distance The distance from the centre of the map to the point
+     *  in question.
+     * @param angle The bearing or angle from the centre of the map to the
+     *  point in question. Specify in degrees.
+     * @param centre The geographical point the map is centred around. Must
+     *  be an object with lat and lng properties.
+     * @return An object with x and y properties where the values are grid
+     *  coordinates that can be scaled for a map.
+     */
+    function MapPoint (point, distance, angle, centre) {
+	var dx = Math.sin(utilities.toRadians(angle)) * distance;
+	var dy = Math.cos(utilities.toRadians(angle)) * distance;
+	this.x = centre.x + dx;
+	this.y = centre.y - dy;
+	this.name = point.name + " " + point.description;
+	this.name = escape (this.name).replace(/%20/g, " ");
+	this.id = point.id;
+	this.description = point.description;
+    }
 }
 
-/**
- * Calculate the x and y values for a geographical point on a flat grid.
- * @param distance The distance from the centre of the map to the point
- *  in question.
- * @param angle The bearing or angle from the centre of the map to the
- *  point in question. Specify in degrees.
- * @param centre The geographical point the map is centred around. Must
- *  be an object with lat and lng properties.
- * @return An object with x and y properties where the values are grid
- *  coordinates that can be scaled for a map.
- */
-function computeMapPoint (distance, angle, centre) {
-    var dx = Math.sin(utilities.toRadians(angle)) * distance;
-    var dy = Math.cos(utilities.toRadians(angle)) * distance;
-    return {x:centre.x + dx,
-	    y:centre.y + dy};
-}
 
 /**
  * Perform a google places search and add places to the map by means of
@@ -87,14 +80,28 @@ function computeMapPoint (distance, angle, centre) {
  *  addPoints(arrayOfPlaces)
  * @return nothing 
  */
-function addPlacesToMap (key, parameters, map) {
+function locationSearchService (key, parameters, map) {
     var googlePlaces = new GooglePlaces(key, "json");
     googlePlaces.placeSearch(parameters, function (error, response) {
 	if (error) {
 	    throw error;
 	}
-	map.addPoints(response.results);
+	for (var i = 0; i < response.results.length; i++) {
+	    var point = new GeographicalPoint(response.results[i].id, response.results[i].geometry.location.lat,
+					      response.results[i].geometry.location.lng, response.results[i].name,
+					      response.results[i].vicinity);
+	    map.addPoint (point);
+	}
+	console.log(toSVG(map));
     });
+}
+
+function GeographicalPoint (id, lat, lng, name, description) {
+    this.id = id;
+    this.name = name;
+    this.lat = lat;
+    this.lng = lng;
+    this.description = description;
 }
 
 /**
@@ -107,7 +114,7 @@ function toSVG (map) {
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
 	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
 	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    var metadata = "<metadata id=\"1401062652130\" title=\"Pyrmont Sydney\""
+    var metadata = "<metadata id=\"1401062652130\" title=\"Glen waverley6\""
 	    + " description=\"Places in Pyrmont Sydney\""
 	    + " category=\"map\">\n"
 	    + "<summary>\n"
@@ -127,7 +134,8 @@ function toSVG (map) {
 	    + "</audio>\n"
 	    + "<volume>\n"
 	    + "</volume>\n"
-	    + "<text>"+escape(map.mapPoints[i].name)+"</text>\n"
+	    + "<text>"+map.mapPoints[i].name
+	    +"</text>\n"
 	    + "      <vibration>\n"
 	    +"      </vibration>\n"
 	    +"      <annotation>\n"
@@ -140,6 +148,5 @@ function toSVG (map) {
     return svg;
 }
 
-var centre = {lat:-33.8670522, lng:151.1957362};
-var map = new Map (200, 200, centre);
-addPlacesToMap (apikey, parameters, map);
+var map = new Map (centre, 300);
+locationSearchService (apikey, parameters, map);
