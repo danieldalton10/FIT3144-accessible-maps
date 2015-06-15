@@ -123,7 +123,7 @@ function locationSearchService (key, parameters, map) {
 					      response.results[i].vicinity);
 	    map.addPoint (point);
 	}
-//	console.log(toSVG(map));
+	console.log(toSVG(map));
     });
 }
 
@@ -140,7 +140,9 @@ function openStreetService (map) {
 			     results.features[i].geometry.coordinates, results.features[i].properties.name);
 	    }
 	}
-	console.log(toSVG(map));
+	map.addPoint(map.centre);
+//	console.log(toSVG(map));
+	locationSearchService (apikey, parameters, map);
     });
 }
 
@@ -162,7 +164,7 @@ function toSVG (map) {
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
 	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
 	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    var metadata = "<metadata id=\"1401062652130\" title=\"springvale rd\""
+    var metadata = "<metadata id=\"1401062652130\" title=\"springvale rd6\""
 	    + " description=\"Places in Pyrmont Sydney\""
 	    + " category=\"map\">\n"
 	    + "<summary>\n"
@@ -200,7 +202,8 @@ function toSVG (map) {
 		svg += " ";
 	    }
 	}
-	svg += "\" style=\"stroke: rgb(128, 150, 147); stroke-width: 10px; stroke-linejoin: round; fill: none; cursor: default;\" class=\"\"/>\n";
+	svg += "\" style=\"#"+colour.toString(16)+"\" stroke-width=\"80\" fill=\"#"+colour.toString(16)+"\"/>\n";
+	//style=\"stroke: rgb(128, 150, 147); stroke-width: 10px; stroke-linejoin: round; fill: none; cursor: default;\" class=\"\"/>\n";
 	metadata += "    <gravvitas>\n"
 	    + "<id>" + map.mapLines[i].id + "</id>\n"
 	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
