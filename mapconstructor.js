@@ -33,7 +33,11 @@ function Map (centre, radius) {
 	point = {lat:lat, lng:lng, name:name, description:description, id:id};
 	var distance = utilities.distance(centre, point);
 	var bearing = utilities.initialBearing(centre, point);
-	this.mapPoints[this.mapPoints.length] = new MapPoint (point, distance, bearing, this.mapCentre);
+	var circle = new MapPoint (point, distance, bearing, this.mapCentre);
+	if (circle.x > 0 && circle.x < this.width && circle.y > 0 
+	    && circle.y < this.height) {
+	    this.mapPoints[this.mapPoints.length] = circle;
+	}
     }
 
     this.addLine = function (id, coordinates, name) {
@@ -103,8 +107,9 @@ callback = function (map) {
     }
 };
 
-var radius = 1000;
-var centre = {lat:-37.875260, lng:145.164821, name:"Centre", id:"abc"};
+var radius = 500;
+var centre = {lng:145.1326624, lat:-37.9114264, id:"abc",name:"Here", description:""};
+//var centre = {lat:-37.875260, lng:145.164821, name:"Centre", id:"abc"};
 /**
  * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
  */
@@ -114,4 +119,5 @@ var parameters = {
     radius:radius
 };
 var map = new Map (centre, radius);
-googlePlaceSearch.nearbySearch (parameters, map, callback);
+//googlePlaceSearch.nearbySearch (parameters, map, callback);
+openStreet.readFromOSM(map, svgCallback);

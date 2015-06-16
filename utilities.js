@@ -99,7 +99,7 @@ toSVG = function (map) {
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
 	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
 	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    var metadata = "<metadata id=\"1401062652130\" title=\"places and roads1\""
+    var metadata = "<metadata id=\"1401062652130\" title=\"Monash uni buildings2\""
 	    + " description=\"Places in Pyrmont Sydney\""
 	    + " category=\"map\">\n"
 	    + "<summary>\n"
@@ -107,7 +107,7 @@ toSVG = function (map) {
 
     for (var i = 0; i < map.mapPoints.length; i++) {
 	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
-	    Math.round(map.mapPoints[i].y) + "\" r=\"40\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
+	    Math.round(map.mapPoints[i].y) + "\" r=\"20\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
 	metadata += "    <gravvitas>\n"
 	    + "<id>" + map.mapPoints[i].id + "</id>\n"
 	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
