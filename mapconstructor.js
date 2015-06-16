@@ -2,23 +2,9 @@
  * Functions used to construct an svg map
 */
 
-var GooglePlaces = require("googleplaces");
 var utilities = require("./utilities.js");
-var fs = require('fs')
-
-var apikey = process.env.GOOGLE_PLACES_API_KEY;
-var centre = new GeographicalPoint("abc", -37.875260, 145.164821, "Centre", "");
-
-/**
- * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
- */
-var parameters = {
-//-33.8670522, 151.1957362
-    location:[centre.lat, centre.lng],
-    types:"food", 
-    radius:1000
-};
-
+var openStreet = require("./openStreet.js");
+var googlePlaceSearch = require("./googlePlaceSearch.js");
 /**
  * Define a map object. This object contains methods related to
  *  manipulating the map data stored as members of the object.
@@ -34,6 +20,7 @@ function Map (centre, radius) {
     this.mapPoints = new Array();
     this.mapLines = new Array();
     this.mapCentre = {x:this.width/2, y:this.height/2};
+
     /**
      * Add points to the map. Points are scaled to fit the map. This can
      *  be used as a callback eg. from a function who's job it is to
@@ -41,8 +28,9 @@ function Map (centre, radius) {
      * @param points an array of points that have geometry.lat/lng, name, id 
      * and vicinity properties.
      */
-    this.addPoint = function (point) {
+    this.addPoint = function (id, lat, lng, name, description) {
 	// scale for the map
+	point = {lat:lat, lng:lng, name:name, description:description, id:id};
 	var distance = utilities.distance(centre, point);
 	var bearing = utilities.initialBearing(centre, point);
 	this.mapPoints[this.mapPoints.length] = new MapPoint (point, distance, bearing, this.mapCentre);
@@ -101,133 +89,29 @@ function Map (centre, radius) {
     }
 }
 
-
-/**
- * Perform a google places search and add places to the map by means of
- *  the callback method map.addPoints
- * @param key Google places API key
- * @param parameters Parameters for the places api.
- * @param map The map to add the places to with the call back method
- *  addPoints(arrayOfPlaces)
- * @return nothing 
- */
-function locationSearchService (key, parameters, map) {
-    var googlePlaces = new GooglePlaces(key, "json");
-    googlePlaces.placeSearch(parameters, function (error, response) {
-	if (error) {
-	    throw error;
-	}
-	for (var i = 0; i < response.results.length; i++) {
-	    var point = new GeographicalPoint(response.results[i].id, response.results[i].geometry.location.lat,
-					      response.results[i].geometry.location.lng, response.results[i].name,
-					      response.results[i].vicinity);
-	    map.addPoint (point);
-	}
-//	console.log(toSVG(map));
-    });
-}
-
-function openStreetService (map) {
-    fs.readFile('glen.json', 'utf8', function (err,data) {
-	if (err) {
-	    return console.log(err);
-	}
-	results = JSON.parse(data);
-	points = new Array();
-	for (var i = 0; i < results.features.length; i++) {
-	    if (results.features[i].properties.name == "Springvale Road") {
-		map.addLine (results.features[i].id,
-			     results.features[i].geometry.coordinates, results.features[i].properties.name);
-	    }
-	}
-	map.addPoint(map.centre);
+svgCallback = function (map) {
+    if (map != undefined) {
 	console.log(toSVG(map));
-    });
-}
+    }
+};
 
-function GeographicalPoint (id, lat, lng, name, description) {
-    this.id = id;
-    this.name = name;
-    this.lat = lat;
-    this.lng = lng;
-    this.description = description;
-}
+callback = function (map) {
+    if (map == undefined) {
+	console.log ("Error!");
+    } else {
+	openStreet.readFromOSM(map, svgCallback);
+    }
+};
 
+var radius = 1000;
+var centre = {lat:-37.875260, lng:145.164821, name:"Centre", id:"abc"};
 /**
- * Convert a map object to svg.
- * @param map A Map object to generate a SVG for.
- * @return svg string for map.
-*/
-function toSVG (map) {
-    var colour = 0xFF0000;
-    var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
-	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
-	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    var metadata = "<metadata id=\"1401062652130\" title=\"springvale rd8\""
-	    + " description=\"Places in Pyrmont Sydney\""
-	    + " category=\"map\">\n"
-	    + "<summary>\n"
-	    + "</summary>\n";
-
-    for (var i = 0; i < map.mapPoints.length; i++) {
-	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
-	    Math.round(map.mapPoints[i].y) + "\" r=\"80\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
-	metadata += "    <gravvitas>\n"
-	    + "<id>" + map.mapPoints[i].id + "</id>\n"
-	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
-	    + "      <bordercolor>\n"
-	    + "</bordercolor>\n"
-	    + "<cornercolor>\n"
-	    + "</cornercolor>\n"
-	    + "<audio>\n"
-	    + "</audio>\n"
-	    + "<volume>\n"
-	    + "</volume>\n"
-	    + "<text>"+map.mapPoints[i].name
-	    +"</text>\n"
-	    + "      <vibration>\n"
-	    +"      </vibration>\n"
-	    +"      <annotation>\n"
-	    +"      </annotation>\n"
-	    +"    </gravvitas>\n";
-	++colour;
-    }
-    for (var i = 0; i < map.mapLines.length; i++) {
-	svg += "<polyline id=\"" + map.mapLines[i].id + "\" points=\"";
-	for (var j = 0; j < map.mapLines[i].coordinates.length; j+=2) {
-	    svg += Math.round(map.mapLines[i].coordinates[j]) + "," +
-		Math.round(map.mapLines[i].coordinates[j+1]);
-	    if (j+2 < map.mapLines[i].coordinates.length) {
-		svg += " ";
-	    }
-	}
-	svg += "\" style=\"stroke:#"+colour.toString(16)+"\" stroke-width=\"80\" fill=\"#"+colour.toString(16)+"\"/>\n";
-	metadata += "    <gravvitas>\n"
-	    + "<id>" + map.mapLines[i].id + "</id>\n"
-	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
-	    + "      <bordercolor>\n"
-	    + "</bordercolor>\n"
-	    + "<cornercolor>\n"
-	    + "</cornercolor>\n"
-	    + "<audio>\n"
-	    + "</audio>\n"
-	    + "<volume>\n"
-	    + "</volume>\n"
-	    + "<text>"+map.mapLines[i].name
-	    +"</text>\n"
-	    + "      <vibration>\n"
-	    +"      </vibration>\n"
-	    +"      <annotation>\n"
-	    +"      </annotation>\n"
-	    +"    </gravvitas>\n";
-	++colour;
-    }
-    metadata += "  </metadata>\n";
-    svg += metadata + "</svg>";
-    return svg;
-}
-
-var map = new Map (centre, 1000);
-//locationSearchService (apikey, parameters, map);
-openStreetService(map);
-
+ * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
+ */
+var parameters = {
+    location:[centre.lat, centre.lng],
+    types:"food", 
+    radius:radius
+};
+var map = new Map (centre, radius);
+googlePlaceSearch.nearbySearch (parameters, map, callback);

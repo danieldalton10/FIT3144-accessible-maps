@@ -89,7 +89,82 @@ findMaxDistance = function (centre, places) {
     return {index:index,distance:maxDistance};
 };
 
+/**
+ * Convert a map object to svg.
+ * @param map A Map object to generate a SVG for.
+ * @return svg string for map.
+*/
+toSVG = function (map) {
+    var colour = 0xFF0000;
+    var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
+	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
+	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
+    var metadata = "<metadata id=\"1401062652130\" title=\"places and roads1\""
+	    + " description=\"Places in Pyrmont Sydney\""
+	    + " category=\"map\">\n"
+	    + "<summary>\n"
+	    + "</summary>\n";
+
+    for (var i = 0; i < map.mapPoints.length; i++) {
+	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
+	    Math.round(map.mapPoints[i].y) + "\" r=\"40\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
+	metadata += "    <gravvitas>\n"
+	    + "<id>" + map.mapPoints[i].id + "</id>\n"
+	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
+	    + "      <bordercolor>\n"
+	    + "</bordercolor>\n"
+	    + "<cornercolor>\n"
+	    + "</cornercolor>\n"
+	    + "<audio>\n"
+	    + "</audio>\n"
+	    + "<volume>\n"
+	    + "</volume>\n"
+	    + "<text>"+map.mapPoints[i].name
+	    +"</text>\n"
+	    + "      <vibration>\n"
+	    +"      </vibration>\n"
+	    +"      <annotation>\n"
+	    +"      </annotation>\n"
+	    +"    </gravvitas>\n";
+	++colour;
+    }
+    for (var i = 0; i < map.mapLines.length; i++) {
+	svg += "<polyline id=\"" + map.mapLines[i].id + "\" points=\"";
+	for (var j = 0; j < map.mapLines[i].coordinates.length; j+=2) {
+	    svg += Math.round(map.mapLines[i].coordinates[j]) + "," +
+		Math.round(map.mapLines[i].coordinates[j+1]);
+	    if (j+2 < map.mapLines[i].coordinates.length) {
+		svg += " ";
+	    }
+	}
+	svg += "\" style=\"stroke:#"+colour.toString(16)+"\" stroke-width=\"40\" fill=\"#"+colour.toString(16)+"\"/>\n";
+	metadata += "    <gravvitas>\n"
+	    + "<id>" + map.mapLines[i].id + "</id>\n"
+	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
+	    + "      <bordercolor>\n"
+	    + "</bordercolor>\n"
+	    + "<cornercolor>\n"
+	    + "</cornercolor>\n"
+	    + "<audio>\n"
+	    + "</audio>\n"
+	    + "<volume>\n"
+	    + "</volume>\n"
+	    + "<text>"+map.mapLines[i].name
+	    +"</text>\n"
+	    + "      <vibration>\n"
+	    +"      </vibration>\n"
+	    +"      <annotation>\n"
+	    +"      </annotation>\n"
+	    +"    </gravvitas>\n";
+	++colour;
+    }
+    metadata += "  </metadata>\n";
+    svg += metadata + "</svg>";
+    return svg;
+};
+
 exports.distance = distance;
 exports.initialBearing = initialBearing;
 exports.findMaxDistance = findMaxDistance;
 exports.toRadians = toRadians;
+exports.toSVG = toSVG;
