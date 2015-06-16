@@ -19,6 +19,7 @@ function Map (centre, radius) {
     this.centre = centre;
     this.mapPoints = new Array();
     this.mapLines = new Array();
+    this.mapPolygons = new Array();
     this.mapCentre = {x:this.width/2, y:this.height/2};
 
     /**
@@ -41,7 +42,7 @@ function Map (centre, radius) {
     }
 
     this.addLine = function (id, coordinates, name) {
-	var line = new MapLine (id,
+	var line = new MapPolyShape (id,
 				coordinates,
 				name,
 				this.centre, this.mapCentre, this.width, this.height);
@@ -50,7 +51,17 @@ function Map (centre, radius) {
 	}
     }
 
-    function MapLine (id, coordinates, name, centre, mapCentre, width, height) {
+    this.addPolygon = function (id, coordinates, name) {
+	var polygon = new MapPolyShape (id,
+				coordinates,
+				name,
+				this.centre, this.mapCentre, this.width, this.height);
+	if (polygon.coordinates.length > 2) {
+	    this.mapPolygons[this.mapPolygons.length] = polygon;
+	}
+    }
+
+    function MapPolyShape (id, coordinates, name, centre, mapCentre, width, height) {
 	this.id = id;
 	this.name = escape(name).replace(/%20/g, " ");
 	this.coordinates = new Array();
@@ -107,9 +118,9 @@ callback = function (map) {
     }
 };
 
-var radius = 500;
-var centre = {lng:145.1326624, lat:-37.9114264, id:"abc",name:"Here", description:""};
-//var centre = {lat:-37.875260, lng:145.164821, name:"Centre", id:"abc"};
+var radius = 800;
+//var centre = {lng:145.1326624, lat:-37.9114264, id:"abc",name:"Monash university", description:""};
+var centre = {lat:-37.875260, lng:145.164821, name:"Glen Waverley(2)", id:"abc"};
 /**
  * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
  */
@@ -119,5 +130,6 @@ var parameters = {
     radius:radius
 };
 var map = new Map (centre, radius);
+var parameters = {highway:["trunk", "primary", "secondary", "tertiary"], railway:["station"], amenity:["restaurant", "fast_food"]};
 //googlePlaceSearch.nearbySearch (parameters, map, callback);
-openStreet.readFromOSM(map, svgCallback);
+openStreet.readFromOSM(map, svgCallback, parameters);

@@ -1,37 +1,77 @@
 var fs = require('fs')
 
-readFromOSM = function (map, callback) {
+readFromOSM = function (map, callback, parameters) {
     fs.readFile('glen.json', 'utf8', function (err,data) {
 	if (!err) {
 	    results = JSON.parse(data);
 	}
-	openStreetService(map, callback, results, err);
+	openStreetService(map, callback, parameters, results, err);
     });
 };
 
-openStreetService = function (map, callback, results, err) {
+openStreetService = function (map, callback, parameters, results, err) {
     if (err) {
 	callback (undefined);
 	return;
     }
     points = new Array();
     for (var i = 0; i < results.features.length; i++) {
-/*	if (results.features[i].properties.highway == "trunk" ||
-	    results.features[i].properties.highway == "primary" ||
-	    results.features[i].properties.highway == "secondary"
-	    || results.features[i].properties.highway == "resi") {*/
-	if (results.features[i].properties.building == "yes") {
-	    if (results.features[i].properties.name != undefined && results.features[i].geometry.type == "Polygon") {
-		map.addPoint (results.features[i].id,
-			      results.features[i].geometry.coordinates[0][0][1],
-			      results.features[i].geometry.coordinates[0][0][0],
-			      results.features[i].properties.name, "");
-	    }
-	}
+	addFeatureToMap (map, results.features[i], parameters);
     }
     map.addPoint(map.centre.id, map.centre.lat, map.centre.lng, map.centre.name, "");
     callback(map);
 };
+
+function addFeatureToMap (map, feature, parameters) {
+    if (!shouldAdd(feature, parameters)) {
+	return false;
+    }
+    if (feature.geometry.type == "Point") {
+	map.addPoint(feature.id, feature.geometry.coordinates[1],
+		     feature.geometry.coordinates[0],
+		     feature.properties.name, "");
+    } else if (feature.geometry.type == "Polygon") {
+	map.addPolygon(feature.id, feature.geometry.coordinates[0],
+		       feature.properties.name);
+    } else if (feature.geometry.type == "LineString") {
+	map.addLine(feature.id, feature.geometry.coordinates,
+		       feature.properties.name);
+    } else { // unsupported shape
+	return false;
+    }
+    return true;
+}
+
+function shouldAdd (feature, parameters) {
+    if (feature.properties.name == undefined) {
+	return false;
+    }
+    if (parameters.highway != undefined) {
+	for (var i = 0; i < parameters.highway.length; i++) {
+	    if (feature.properties.highway == parameters.highway[i]) {
+		return true;
+	    }
+	}
+    }
+    if (parameters.amenity != undefined) {
+	for (var i = 0; i < parameters.amenity.length; i++) {
+	    if (feature.properties.amenity == parameters.amenity[i]) {
+		return true;
+	    }
+	}
+    }
+    if (parameters.railway != undefined) {
+	for (var i = 0; i < parameters.railway.length; i++) {
+	    if (feature.properties.railway == parameters.railway[i]) {
+		return true;
+	    }
+	}
+    }
+    if (parameters.building && feature.properties.building == "yes") {
+	return true;
+    }
+    return false;
+}
 
 exports.readFromOSM=readFromOSM;
 

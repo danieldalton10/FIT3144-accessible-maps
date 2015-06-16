@@ -94,12 +94,13 @@ findMaxDistance = function (centre, places) {
  * @param map A Map object to generate a SVG for.
  * @return svg string for map.
 */
+// requires refactor 
 toSVG = function (map) {
     var colour = 0xFF0000;
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
 	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
 	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    var metadata = "<metadata id=\"1401062652130\" title=\"Monash uni buildings2\""
+    var metadata = "<metadata id=\"1401062652130\" title=\""+makeTitle(map)+"\""
 	    + " description=\"Places in Pyrmont Sydney\""
 	    + " category=\"map\">\n"
 	    + "<summary>\n"
@@ -107,7 +108,7 @@ toSVG = function (map) {
 
     for (var i = 0; i < map.mapPoints.length; i++) {
 	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
-	    Math.round(map.mapPoints[i].y) + "\" r=\"20\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
+	    Math.round(map.mapPoints[i].y) + "\" r=\"80\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
 	metadata += "    <gravvitas>\n"
 	    + "<id>" + map.mapPoints[i].id + "</id>\n"
 	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
@@ -158,10 +159,45 @@ toSVG = function (map) {
 	    +"    </gravvitas>\n";
 	++colour;
     }
+    // polygon shapes 
+    for (var i = 0; i < map.mapPolygons.length; i++) {
+	svg += "<polygon id=\"" + map.mapPolygons[i].id + "\" points=\"";
+	for (var j = 0; j < map.mapPolygons[i].coordinates.length; j+=2) {
+	    svg += Math.round(map.mapPolygons[i].coordinates[j]) + "," +
+		Math.round(map.mapPolygons[i].coordinates[j+1]);
+	    if (j+2 < map.mapPolygons[i].coordinates.length) {
+		svg += " ";
+	    }
+	}
+	svg += "\" style=\"stroke:#"+colour.toString(16)+"\" stroke-width=\"40\" fill=\"#"+colour.toString(16)+"\"/>\n";
+	metadata += "    <gravvitas>\n"
+	    + "<id>" + map.mapPolygons[i].id + "</id>\n"
+	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
+	    + "      <bordercolor>\n"
+	    + "</bordercolor>\n"
+	    + "<cornercolor>\n"
+	    + "</cornercolor>\n"
+	    + "<audio>\n"
+	    + "</audio>\n"
+	    + "<volume>\n"
+	    + "</volume>\n"
+	    + "<text>"+map.mapPolygons[i].name
+	    +"</text>\n"
+	    + "      <vibration>\n"
+	    +"      </vibration>\n"
+	    +"      <annotation>\n"
+	    +"      </annotation>\n"
+	    +"    </gravvitas>\n";
+	++colour;
+    }
     metadata += "  </metadata>\n";
     svg += metadata + "</svg>";
     return svg;
 };
+
+function makeTitle (map) {
+    return map.centre.name + " " + map.height + " by " + map.width;
+}
 
 exports.distance = distance;
 exports.initialBearing = initialBearing;
