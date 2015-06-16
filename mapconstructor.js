@@ -53,7 +53,7 @@ function Map (centre, radius) {
 				coordinates,
 				name,
 				this.centre, this.mapCentre, this.width, this.height);
-	if (line.coordinates.length > 0) {
+	if (line.coordinates.length > 1) {
 	    this.mapLines[this.mapLines.length] = line;
 	}
     }
@@ -123,7 +123,7 @@ function locationSearchService (key, parameters, map) {
 					      response.results[i].vicinity);
 	    map.addPoint (point);
 	}
-	console.log(toSVG(map));
+//	console.log(toSVG(map));
     });
 }
 
@@ -141,8 +141,7 @@ function openStreetService (map) {
 	    }
 	}
 	map.addPoint(map.centre);
-//	console.log(toSVG(map));
-	locationSearchService (apikey, parameters, map);
+	console.log(toSVG(map));
     });
 }
 
@@ -164,7 +163,7 @@ function toSVG (map) {
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
 	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
 	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
-    var metadata = "<metadata id=\"1401062652130\" title=\"springvale rd6\""
+    var metadata = "<metadata id=\"1401062652130\" title=\"springvale rd8\""
 	    + " description=\"Places in Pyrmont Sydney\""
 	    + " category=\"map\">\n"
 	    + "<summary>\n"
@@ -172,7 +171,7 @@ function toSVG (map) {
 
     for (var i = 0; i < map.mapPoints.length; i++) {
 	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
-	    Math.round(map.mapPoints[i].y) + "\" r=\"70\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
+	    Math.round(map.mapPoints[i].y) + "\" r=\"80\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
 	metadata += "    <gravvitas>\n"
 	    + "<id>" + map.mapPoints[i].id + "</id>\n"
 	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
@@ -202,8 +201,7 @@ function toSVG (map) {
 		svg += " ";
 	    }
 	}
-	svg += "\" style=\"#"+colour.toString(16)+"\" stroke-width=\"80\" fill=\"#"+colour.toString(16)+"\"/>\n";
-	//style=\"stroke: rgb(128, 150, 147); stroke-width: 10px; stroke-linejoin: round; fill: none; cursor: default;\" class=\"\"/>\n";
+	svg += "\" style=\"stroke:#"+colour.toString(16)+"\" stroke-width=\"80\" fill=\"#"+colour.toString(16)+"\"/>\n";
 	metadata += "    <gravvitas>\n"
 	    + "<id>" + map.mapLines[i].id + "</id>\n"
 	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
