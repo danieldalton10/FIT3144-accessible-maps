@@ -18,7 +18,7 @@ openStreetService = function (map, callback, parameters, results, err) {
     for (var i = 0; i < results.features.length; i++) {
 	addFeatureToMap (map, results.features[i], parameters);
     }
-    map.addPoint(map.centre.id, map.centre.lat, map.centre.lng, map.centre.name, "");
+//    map.addPoint(map.centre.id, map.centre.lat, map.centre.lng, map.centre.name, "");
     callback(map);
 };
 
@@ -46,29 +46,22 @@ function shouldAdd (feature, parameters) {
     if (feature.properties.name == undefined) {
 	return false;
     }
-    if (parameters.highway != undefined) {
-	for (var i = 0; i < parameters.highway.length; i++) {
-	    if (feature.properties.highway == parameters.highway[i]) {
-		return true;
-	    }
-	}
-    }
-    if (parameters.amenity != undefined) {
-	for (var i = 0; i < parameters.amenity.length; i++) {
-	    if (feature.properties.amenity == parameters.amenity[i]) {
-		return true;
-	    }
-	}
-    }
-    if (parameters.railway != undefined) {
-	for (var i = 0; i < parameters.railway.length; i++) {
-	    if (feature.properties.railway == parameters.railway[i]) {
-		return true;
-	    }
-	}
-    }
     if (parameters.building && feature.properties.building == "yes") {
 	return true;
+    }
+    return matchesParameterArray(parameters.highway, feature.properties.highway) 
+	|| matchesParameterArray(parameters.amenity, feature.properties.amenity)
+	|| matchesParameterArray(parameters.railway, feature.properties.railway)
+	|| matchesParameterArray(parameters.sport, feature.properties.sport);
+}
+
+function matchesParameterArray (specified, feature) {
+    if (specified != undefined) {
+	for (var i = 0; i < specified.length; i++) {
+	    if (feature == specified[i]) {
+		return true;
+	    }
+	}
     }
     return false;
 }

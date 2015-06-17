@@ -4,6 +4,7 @@
 
 var utilities = require("./utilities.js");
 var openStreet = require("./openStreet.js");
+var route = require("./route.js");
 var googlePlaceSearch = require("./googlePlaceSearch.js");
 /**
  * Define a map object. This object contains methods related to
@@ -14,8 +15,8 @@ var googlePlaceSearch = require("./googlePlaceSearch.js");
  *  centred around.
 */
 function Map (centre, radius) {
-    this.height = Math.round(radius * 5/3);
-    this.width = Math.round(radius * 5/3);
+    this.height = Math.round(radius * 6/3);
+    this.width = Math.round(radius * 6/3);
     this.centre = centre;
     this.mapPoints = new Array();
     this.mapLines = new Array();
@@ -114,13 +115,13 @@ callback = function (map) {
     if (map == undefined) {
 	console.log ("Error!");
     } else {
-	openStreet.readFromOSM(map, svgCallback);
+	route.readRoute("route1.json", map, svgCallback);
     }
 };
 
-var radius = 800;
+var radius = 600;
 //var centre = {lng:145.1326624, lat:-37.9114264, id:"abc",name:"Monash university", description:""};
-var centre = {lat:-37.875260, lng:145.164821, name:"Glen Waverley(2)", id:"abc"};
+var centre = {lat:-37.875260, lng:145.164821, name:"descriptive spoken route2", id:"abc"};
 /**
  * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
  */
@@ -130,6 +131,8 @@ var parameters = {
     radius:radius
 };
 var map = new Map (centre, radius);
-var parameters = {highway:["trunk", "primary", "secondary", "tertiary"], railway:["station"], amenity:["restaurant", "fast_food"]};
-//googlePlaceSearch.nearbySearch (parameters, map, callback);
-openStreet.readFromOSM(map, svgCallback, parameters);
+var parameters = {highway:["trunk", "primary", "secondary", "tertiary"],
+		  railway:["station"], sport:["swimming"]};
+openStreet.readFromOSM(map, callback, parameters);
+//console.log(process.argv);
+//route.readRoute("route1.json", map, svgCallback);

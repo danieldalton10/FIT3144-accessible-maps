@@ -76,17 +76,17 @@ function bearingDegrees (location1, location2) {
  *  the list of the place furthest away) and distance (the distance this
  *  place is from the centre point).
 */
-findMaxDistance = function (centre, places) {
-    var maxDistance = -1;
+findMinDistance = function (centre, places) {
+    var minDistance = 2 << 16;
     var index = -1;
     for (var i = 0; i < places.length; i++) {
-	var currentDistance = distance(centre, places[i].geometry.location);
-	if (currentDistance > maxDistance) {
+	var currentDistance = distance(centre, places[i]);
+	if (currentDistance < minDistance) {
 	    index = i;
-	    maxDistance = currentDistance;
+	    minDistance = currentDistance;
 	}
     }
-    return {index:index,distance:maxDistance};
+    return {index:index,distance:minDistance};
 };
 
 /**
@@ -201,6 +201,6 @@ function makeTitle (map) {
 
 exports.distance = distance;
 exports.initialBearing = initialBearing;
-exports.findMaxDistance = findMaxDistance;
+exports.findMinDistance = findMinDistance;
 exports.toRadians = toRadians;
 exports.toSVG = toSVG;
