@@ -1,13 +1,36 @@
-var fs = require('fs')
+var request = require ('request');
 var cheerio = require ('cheerio');
+var fs = require ('fs');
 
-readRoute = function (file, map, callback) {
+readRoute = function (points, map, callback) {
+    var appId = "app_id=qA8ImB6FZ5bOwaYwwvZK";
+    var appCode = "app_code=LrelYfkBW7yosCLGqD_WiQ";
+    var way0 = "waypoint0=geo!" + points[0].lat + "," + points[0].lng;
+    var way1 = "waypoint1=geo!"+points[1].lat + "," + points[1].lng;
+    var extra = "mode=fastest;car;traffic:disabled";
+    var url = "http://route.cit.api.here.com/routing/7.2/calculateroute.json?" + appId + "&" + appCode
+	    + "&" + way0 + "&" + way1 + "&" + extra;
+    request(url, function (error, response, body) {
+	if (!error && response.statusCode == 200) {
+	    results = JSON.parse(body);
+	    pushToMap(map, callback, results);
+	    callback(map);
+	} else {
+	    console.log(response);
+	    callback(undefined);
+	}
+    });
+};
+
+readRouteFromFile = function (file, map, callback) {
     fs.readFile(file, 'utf8', function (err,data) {
 	if (!err) {
 	    results = JSON.parse(data);
+	    pushToMap(map, callback, results);
+	    callback(map);
+	} else {
+	    callback(undefined);
 	}
-	pushToMap(map, callback, results);
-	callback(map);
     });
 };
 
@@ -47,4 +70,6 @@ function addDescriptionPoint (map, coords, maneuver) {
     map.addLine(maneuver.id, coords, "on path " + name);
     map.addPoint("n/"+maneuver.id, coords[0][1], coords[0][0], "", pointDescription);
 }
+
 exports.readRoute=readRoute;
+exports.readRouteFromFile=readRouteFromFile;

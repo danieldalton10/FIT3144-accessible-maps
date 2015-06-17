@@ -6,6 +6,8 @@ var utilities = require("./utilities.js");
 var openStreet = require("./openStreet.js");
 var route = require("./route.js");
 var googlePlaceSearch = require("./googlePlaceSearch.js");
+var points = [{lat:-37.879965,lng:145.1628128}, {lat:-37.8745313,lng:145.1685627}];
+
 /**
  * Define a map object. This object contains methods related to
  *  manipulating the map data stored as members of the object.
@@ -108,14 +110,16 @@ function Map (centre, radius) {
 svgCallback = function (map) {
     if (map != undefined) {
 	console.log(toSVG(map));
+    } else {
+	console.log("An error occurred not generating svg.");
     }
 };
 
 callback = function (map) {
     if (map == undefined) {
-	console.log ("Error!");
+	console.log("An error occurred not generating svg.");
     } else {
-	route.readRoute("route1.json", map, svgCallback);
+	route.readRoute(points, map, svgCallback);
     }
 };
 
