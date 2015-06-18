@@ -123,9 +123,9 @@ callback = function (map) {
     }
 };
 
-var radius = 500;
+var radius = 400;
 //var centre = {lng:145.1326624, lat:-37.9114264, id:"abc",name:"Monash university", description:""};
-var centre = {lat:-37.875260, lng:145.164821, name:"lines", id:"abc"};
+var centre = {lat:-37.875260, lng:145.164821, name:"fix", id:"abc"};
 /**
  * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
  */

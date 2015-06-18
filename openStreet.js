@@ -23,12 +23,12 @@ openStreetService = function (map, callback, parameters, results, err) {
 };
 
 function addFeatureToMap (map, feature, parameters) {
-    var name = "";
-    if (feature.properties.name != undefined) {
-	name = feature.properties.name + " ";
+    var name = feature.properties.name;
+    if (name != undefined) {
+	name += generateExtraDescription (feature);
+	name = name.trim();
     }
-    name += generateExtraDescription (feature);
-    if (name == "" || !shouldAdd(feature, parameters)) {
+    if (name == undefined || !shouldAdd(feature, parameters)) {
 	return false;
     }
     if (feature.geometry.type == "Point") {
@@ -50,9 +50,9 @@ function addFeatureToMap (map, feature, parameters) {
 function generateExtraDescription (feature) {
     if (feature.geometry.type != "LineString" 
 	&& feature.properties.highway != undefined) {
-	return feature.properties.highway.replace(/_/g, " ");
+	return " " + feature.properties.highway.replace(/_/g, " ");
     } else if (feature.properties.railway != undefined) {
-	return feature.properties.railway.replace(/_/g, " ");
+	return " " + feature.properties.railway.replace(/_/g, " ");
     }
     return "";
 }

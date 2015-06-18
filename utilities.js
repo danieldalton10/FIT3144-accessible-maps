@@ -101,9 +101,9 @@ toSVG = function (map) {
 	    + "\" xmlns=\"http://www.w3.org/2000/svg\""
 	    + " xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
     var metadata = "<metadata id=\"1401062652130\" title=\""+makeTitle(map)+"\""
-	    + " description=\"Places in Pyrmont Sydney\""
+	    + " description=\"Automatically generated map\""
 	    + " category=\"map\">\n"
-	    + "<summary>\n"
+	    + "<summary>\n" + buildDescription(map) + "\n"
 	    + "</summary>\n";
 
     for (var i = 0; i < map.mapPoints.length; i++) {
@@ -194,6 +194,23 @@ toSVG = function (map) {
     svg += metadata + "</svg>";
     return svg;
 };
+
+function buildDescription (map) {
+    // todo count streets and POI correctly, but this should be a good
+    // indication for now.
+    // for instance mapLines can refer to roads, railway lines, tram tracks
+    // and cycle ways. 
+    var roads = new Array();
+    for (var i = 0; i < map.mapLines.length; i++) {
+	if (roads.indexOf(map.mapLines[i].name) < 0) {
+	    roads[roads.length] = map.mapLines[i].name;
+	}
+    }
+    return "This map is centred around " + map.centre.name +"." 
+	+ " It contains " + roads.length + " streets, and "
+	+ (map.mapPoints.length + map.mapPolygons.length) + " points of"
+	+ " interest.";
+}
 
 function makeTitle (map) {
     return map.centre.name + " " + map.height + " by " + map.width;
