@@ -151,5 +151,6 @@ function addDescriptionPoint (map, coords, maneuver) {
     map.addPoint("n/"+maneuver.id, coords[0][1], coords[0][0], "", pointDescription);
 }
 
+// export functions to be used by external modules 
 exports.readRoute=readRoute;
 exports.readRouteFromFile=readRouteFromFile;
