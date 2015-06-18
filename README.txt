@@ -68,6 +68,10 @@ streets in Glen waverley with a large enough radius.
 even though they appear correctly in the svg file. An example of this
 are the circular nodes that indicate the instruction of direction to
 follow the path between two places.
+3. Number of streets and POI are is very basic in map summary. Is
+reasonably accurate in most cases, but where there is a marked path
+there will be extra points of interest and roads counted because of the
+path and description points. This should be simple to correct.
 
 TODO 
 
