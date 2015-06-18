@@ -16,7 +16,7 @@ var fs = require('fs');
  *  centred around.
 */
 function Map (centre, radius) {
-    this.height = Math.round(radius * 6/3);
+    this.height = Math.round(radius * 2);
     this.width = Math.round(radius * 6/3);
     this.centre = centre;
     this.mapPoints = new Array();
