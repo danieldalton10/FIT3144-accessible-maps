@@ -57,7 +57,7 @@ function generateExtraDescription (feature) {
 }
 
 function shouldAdd (feature, parameters) {
-    if (parameters.building && feature.properties.building == "yes") {
+    if (parameters.building != undefined && parameters.building.toString() == true.toString() && feature.properties.building == "yes") {
 	return true;
     }
     return matchesParameterArray(parameters.highway, feature.properties.highway) 
