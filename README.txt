@@ -59,7 +59,38 @@ food outlets. Show a path from the Glen waverley station to Papa Jon's
 pizza restaurant.
 Write the output map to /tmp/out.svg
 
+KNOWN BUGS
+1. Some images crash GraViewer. Haven't narrowed this down to a
+particular case, but happens when using a radius > 400 at showing monash
+university including roads. Other cases as well such as residential
+streets in Glen waverley with a large enough radius. 
+2. Some text strings are spoken by GraViewer as a single joined word
+even though they appear correctly in the svg file. An example of this
+are the circular nodes that indicate the instruction of direction to
+follow the path between two places.
+
+TODO 
+
+1. Use colour coding for different objects on the map. Will help with
+audio feedback, but also from the perspective of a sighted person.
+2. Indicate intersections between roads and pathways when they are
+crossed when exploring the map.
+3. Currently data is retrieved from a local json file. Automate the
+process by using a web service possibly here maps. We currently use open
+street maps data which is suitable if a web service of this nature can
+be found. 
+4. Add additional filtering options for search results. Currently there
+is highway, railway, amenity, sport and building.
+5. Improve placing of objecs. Eg. placing nodes on top of lines.
+6. Improve the scaling and orientation of objects on the map.
+7. Improve error handling. Firstly, pass more detailed error information
+down the chain.
+8. Take advantage of asynchronous processing eg. reading file or waiting
+for web service. Eg. determine the path between two points concurrently
+while retrieving map data. 
+
 Daniel Dalton Monash University 
 
 dadal2@student.monash.edu 
+
 Updated 18/06/2015
