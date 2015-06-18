@@ -18,7 +18,6 @@ openStreetService = function (map, callback, parameters, results, err) {
     for (var i = 0; i < results.features.length; i++) {
 	addFeatureToMap (map, results.features[i], parameters);
     }
-//    map.addPoint(map.centre.id, map.centre.lat, map.centre.lng, map.centre.name, "");
     callback(map);
 };
 
@@ -79,4 +78,3 @@ function matchesParameterArray (specified, feature) {
 }
 
 exports.readFromOSM=readFromOSM;
-

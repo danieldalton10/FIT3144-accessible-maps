@@ -5,7 +5,7 @@
 var utilities = require("./utilities.js");
 var openStreet = require("./openStreet.js");
 var route = require("./route.js");
-var googlePlaceSearch = require("./googlePlaceSearch.js");
+
 var points = [{lat:-37.879965,lng:145.1628128}, {lat:-37.8745313,lng:145.1685627}];
 
 /**
@@ -126,18 +126,9 @@ callback = function (map) {
 var radius = 400;
 //var centre = {lng:145.1326624, lat:-37.9114264, id:"abc",name:"Monash university", description:""};
 var centre = {lat:-37.875260, lng:145.164821, name:"fix", id:"abc"};
-/**
- * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
- */
-var parameters = {
-    location:[centre.lat, centre.lng],
-    types:"food", 
-    radius:radius
-};
 var map = new Map (centre, radius);
 var parameters = {highway:["bus_stop", "trunk", "primary", "secondary", "tertiary"],
 		  railway:["station"], sport:["swimming"]};
 
 openStreet.readFromOSM(map, svgCallback, parameters);
 //console.log(process.argv);
-//route.readRoute("route1.json", map, svgCallback);

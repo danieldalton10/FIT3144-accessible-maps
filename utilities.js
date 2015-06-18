@@ -66,35 +66,10 @@ function bearingDegrees (location1, location2) {
 }
 
 /**
- * Find the place in a list of places that is furthest away from a single
- *  point.
- * @param centre The point which all places will be compared against.
- * Must be an object with lat and lng properties.
- * @param places An array of google place results with
- *  geometry.location.lat/lng properties.
- * @return An object with properties index (represents the position in
- *  the list of the place furthest away) and distance (the distance this
- *  place is from the centre point).
-*/
-findMinDistance = function (centre, places) {
-    var minDistance = 2 << 16;
-    var index = -1;
-    for (var i = 0; i < places.length; i++) {
-	var currentDistance = distance(centre, places[i]);
-	if (currentDistance < minDistance) {
-	    index = i;
-	    minDistance = currentDistance;
-	}
-    }
-    return {index:index,distance:minDistance};
-};
-
-/**
  * Convert a map object to svg.
  * @param map A Map object to generate a SVG for.
  * @return svg string for map.
 */
-// requires refactor 
 toSVG = function (map) {
     var colour = 0xFF0000;
     var svg = "<svg height =\"" + map.height + "\" width=\"" + map.width
@@ -193,6 +168,5 @@ function makeTitle (map) {
 
 exports.distance = distance;
 exports.initialBearing = initialBearing;
-exports.findMinDistance = findMinDistance;
 exports.toRadians = toRadians;
 exports.toSVG = toSVG;

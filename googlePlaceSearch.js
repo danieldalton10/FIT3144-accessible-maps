@@ -27,4 +27,3 @@ nearbySearch = function (parameters, map, callback) {
 }
 
 exports.nearbySearch=nearbySearch;
-
