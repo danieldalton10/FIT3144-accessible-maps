@@ -22,6 +22,8 @@
 
 /**
  * Functions used to construct an svg map
+ * Also facilitates running of the entire program to generate the map
+ * based on supplied parameters and interactions with external modules.
 */
 
 var utilities = require("./utilities.js");
@@ -32,12 +34,13 @@ var fs = require('fs');
 /**
  * Define a map object. This object contains methods related to
  *  manipulating the map data stored as members of the object.
- * @param width the width of the map in svg pixels 
- * @param height The map height in SVG pixels.
- * @param centre An object with lat lng properties which the map will be
+ * @param centre An object with lat, lng and name properties which the map will be
  *  centred around.
-*/
+ * @param radius The radius such that points within this radius from the
+ * centre will be included in the map.
+ */
 function Map (centre, radius) {
+    // compute height and width based on radius 
     this.height = Math.round(radius * 2);
     this.width = Math.round(radius * 6/3);
     this.centre = centre;
@@ -46,19 +49,23 @@ function Map (centre, radius) {
     this.mapPolygons = new Array();
     this.mapCentre = {x:this.width/2, y:this.height/2};
 
-    /**
-     * Add points to the map. Points are scaled to fit the map. This can
-     *  be used as a callback eg. from a function who's job it is to
-     *  retrieve this data from the external service.
-     * @param points an array of points that have geometry.lat/lng, name, id 
-     * and vicinity properties.
-     */
+/**
+ * Add a point (svg circle) to the map. Specified as a geographical
+ * location as a lat,lng and is scaled and placed on map accordingly.
+ * @param id The unique id of this object.
+ * @param lat The latitude of the point to be added.
+ * @param lng The longitude of the point to be added.
+ * @param name The name of this object to be spoken to the user.
+ * @param description The more detailed description of this object to
+ * also be spoken.
+ */
     this.addPoint = function (id, lat, lng, name, description) {
-	// scale for the map
+	// construct a point object
 	point = {lat:lat, lng:lng, name:name, description:description, id:id};
 	var distance = utilities.distance(centre, point);
 	var bearing = utilities.initialBearing(centre, point);
 	var circle = new MapPoint (point, distance, bearing, this.mapCentre);
+	// check circle x/y coords fit on this map's dimensions 
 	if (circle.x > 0 && circle.x < this.width && circle.y > 0 
 	    && circle.y < this.height) {
 	    this.mapPoints[this.mapPoints.length] = circle;
