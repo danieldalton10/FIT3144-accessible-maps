@@ -23,29 +23,41 @@ openStreetService = function (map, callback, parameters, results, err) {
 };
 
 function addFeatureToMap (map, feature, parameters) {
-    if (!shouldAdd(feature, parameters)) {
+    var name = "";
+    if (feature.properties.name != undefined) {
+	name = feature.properties.name + " ";
+    }
+    name += generateExtraDescription (feature);
+    if (name == "" || !shouldAdd(feature, parameters)) {
 	return false;
     }
     if (feature.geometry.type == "Point") {
 	map.addPoint(feature.id, feature.geometry.coordinates[1],
 		     feature.geometry.coordinates[0],
-		     feature.properties.name, "");
+		     name, "");
     } else if (feature.geometry.type == "Polygon") {
 	map.addPolygon(feature.id, feature.geometry.coordinates[0],
-		       feature.properties.name);
+		       name);
     } else if (feature.geometry.type == "LineString") {
 	map.addLine(feature.id, feature.geometry.coordinates,
-		       feature.properties.name);
+		    name);
     } else { // unsupported shape
 	return false;
     }
     return true;
 }
 
-function shouldAdd (feature, parameters) {
-    if (feature.properties.name == undefined) {
-	return false;
+function generateExtraDescription (feature) {
+    if (feature.geometry.type != "LineString" 
+	&& feature.properties.highway != undefined) {
+	return feature.properties.highway.replace(/_/g, " ");
+    } else if (feature.properties.railway != undefined) {
+	return feature.properties.railway.replace(/_/g, " ");
     }
+    return "";
+}
+
+function shouldAdd (feature, parameters) {
     if (parameters.building && feature.properties.building == "yes") {
 	return true;
     }

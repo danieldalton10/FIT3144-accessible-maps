@@ -123,9 +123,9 @@ callback = function (map) {
     }
 };
 
-var radius = 600;
+var radius = 500;
 //var centre = {lng:145.1326624, lat:-37.9114264, id:"abc",name:"Monash university", description:""};
-var centre = {lat:-37.875260, lng:145.164821, name:"descriptive spoken route2", id:"abc"};
+var centre = {lat:-37.875260, lng:145.164821, name:"lines", id:"abc"};
 /**
  * Place search - https://developers.google.com/places/documentation/#PlaceSearchRequests
  */
@@ -135,8 +135,9 @@ var parameters = {
     radius:radius
 };
 var map = new Map (centre, radius);
-var parameters = {highway:["trunk", "primary", "secondary", "tertiary"],
+var parameters = {highway:["bus_stop", "trunk", "primary", "secondary", "tertiary"],
 		  railway:["station"], sport:["swimming"]};
-openStreet.readFromOSM(map, callback, parameters);
+
+openStreet.readFromOSM(map, svgCallback, parameters);
 //console.log(process.argv);
 //route.readRoute("route1.json", map, svgCallback);
