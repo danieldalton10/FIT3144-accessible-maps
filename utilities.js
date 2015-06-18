@@ -106,94 +106,69 @@ toSVG = function (map) {
 	    + "<summary>\n" + buildDescription(map) + "\n"
 	    + "</summary>\n";
 
-    for (var i = 0; i < map.mapPoints.length; i++) {
-	svg += "<circle id=\"" + map.mapPoints[i].id + "\" cx=\"" + Math.round(map.mapPoints[i].x) + "\" cy=\"" +
-	    Math.round(map.mapPoints[i].y) + "\" r=\"80\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"3\" fill=\"#"+colour.toString(16)+"\" />\n";
-	metadata += "    <gravvitas>\n"
-	    + "<id>" + map.mapPoints[i].id + "</id>\n"
-	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
-	    + "      <bordercolor>\n"
-	    + "</bordercolor>\n"
-	    + "<cornercolor>\n"
-	    + "</cornercolor>\n"
-	    + "<audio>\n"
-	    + "</audio>\n"
-	    + "<volume>\n"
-	    + "</volume>\n"
-	    + "<text>"+map.mapPoints[i].name
-	    +"</text>\n"
-	    + "      <vibration>\n"
-	    +"      </vibration>\n"
-	    +"      <annotation>\n"
-	    +"      </annotation>\n"
-	    +"    </gravvitas>\n";
-	++colour;
-    }
     for (var i = 0; i < map.mapLines.length; i++) {
-	svg += "<polyline id=\"" + map.mapLines[i].id + "\" points=\"";
-	for (var j = 0; j < map.mapLines[i].coordinates.length; j+=2) {
-	    svg += Math.round(map.mapLines[i].coordinates[j]) + "," +
-		Math.round(map.mapLines[i].coordinates[j+1]);
-	    if (j+2 < map.mapLines[i].coordinates.length) {
-		svg += " ";
-	    }
-	}
-	svg += "\" style=\"stroke:#"+colour.toString(16)+"\" stroke-width=\"40\" fill=\"#"+colour.toString(16)+"\"/>\n";
-	metadata += "    <gravvitas>\n"
-	    + "<id>" + map.mapLines[i].id + "</id>\n"
-	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
-	    + "      <bordercolor>\n"
-	    + "</bordercolor>\n"
-	    + "<cornercolor>\n"
-	    + "</cornercolor>\n"
-	    + "<audio>\n"
-	    + "</audio>\n"
-	    + "<volume>\n"
-	    + "</volume>\n"
-	    + "<text>"+map.mapLines[i].name
-	    +"</text>\n"
-	    + "      <vibration>\n"
-	    +"      </vibration>\n"
-	    +"      <annotation>\n"
-	    +"      </annotation>\n"
-	    +"    </gravvitas>\n";
+	svg += svgPolyShape("polyline", map.mapLines[i], colour);
+	metadata += addMetadata(map.mapLines[i], colour);
 	++colour;
     }
-    // polygon shapes 
+
     for (var i = 0; i < map.mapPolygons.length; i++) {
-	svg += "<polygon id=\"" + map.mapPolygons[i].id + "\" points=\"";
-	for (var j = 0; j < map.mapPolygons[i].coordinates.length; j+=2) {
-	    svg += Math.round(map.mapPolygons[i].coordinates[j]) + "," +
-		Math.round(map.mapPolygons[i].coordinates[j+1]);
-	    if (j+2 < map.mapPolygons[i].coordinates.length) {
-		svg += " ";
-	    }
-	}
-	svg += "\" style=\"stroke:#"+colour.toString(16)+"\" stroke-width=\"40\" fill=\"#"+colour.toString(16)+"\"/>\n";
-	metadata += "    <gravvitas>\n"
-	    + "<id>" + map.mapPolygons[i].id + "</id>\n"
-	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
-	    + "      <bordercolor>\n"
-	    + "</bordercolor>\n"
-	    + "<cornercolor>\n"
-	    + "</cornercolor>\n"
-	    + "<audio>\n"
-	    + "</audio>\n"
-	    + "<volume>\n"
-	    + "</volume>\n"
-	    + "<text>"+map.mapPolygons[i].name
-	    +"</text>\n"
-	    + "      <vibration>\n"
-	    +"      </vibration>\n"
-	    +"      <annotation>\n"
-	    +"      </annotation>\n"
-	    +"    </gravvitas>\n";
+	svg += svgPolyShape("polygon", map.mapPolygons[i], colour);
+	metadata += addMetadata(map.mapPolygons[i], colour);
 	++colour;
     }
+
+    for (var i = 0; i < map.mapPoints.length; i++) {
+	svg += svgCircle (map.mapPoints[i], colour);
+	metadata += addMetadata(map.mapPoints[i], colour);
+	++colour;
+    }
+
     metadata += "  </metadata>\n";
     svg += metadata + "</svg>";
     return svg;
 };
+
+function svgCircle (point, colour) {
+    var svg = "<circle id=\"" + point.id + "\" cx=\"" + Math.round(point.x) + "\" cy=\"" 
+	+ Math.round(point.y) + "\" r=\"40\" stroke=\"#"+colour.toString(16)+"\" stroke-width=\"10\" fill=\"#"+colour.toString(16)+"\" />\n";
+    return svg;
+}
+
+function svgPolyShape (type, polyShape, colour) {
+    var svg = "<" + type + " id=\"" + polyShape.id + "\" points=\"";
+    for (var j = 0; j < polyShape.coordinates.length; j+=2) {
+	svg += Math.round(polyShape.coordinates[j]) + "," +
+	    Math.round(polyShape.coordinates[j+1]);
+	if (j+2 < polyShape.coordinates.length) {
+	    svg += " ";
+	}
+    }
+    svg += "\" style=\"stroke:#"+colour.toString(16)+"\" stroke-width=\"20\" fill=\"#"+colour.toString(16)+"\"/>\n";
+    return svg;
+}
+
+function addMetadata (point, colour) {
+    var metadata = "    <gravvitas>\n"
+	    + "<id>" + point.id + "</id>\n"
+	    + "      <interiorcolor>"+colour.toString(16)+"</interiorcolor>\n"
+	    + "      <bordercolor>\n"
+	    + "</bordercolor>\n"
+	    + "<cornercolor>\n"
+	    + "</cornercolor>\n"
+	    + "<audio>\n"
+	    + "</audio>\n"
+	    + "<volume>\n"
+	    + "</volume>\n"
+	    + "<text>"+point.name
+	    +"</text>\n"
+	    + "      <vibration>\n"
+	    +"      </vibration>\n"
+	    +"      <annotation>\n"
+	    +"      </annotation>\n"
+	    +"    </gravvitas>\n";
+    return metadata;
+}
 
 function buildDescription (map) {
     // todo count streets and POI correctly, but this should be a good
