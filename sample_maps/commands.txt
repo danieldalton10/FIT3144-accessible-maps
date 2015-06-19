@@ -1,0 +1,13 @@
+glen_waverley_bus_station_route.svg:
+nodejs mapconstructor.js sample_maps/glen_waverley_bus_station_route.svg "centre=-37.875260,145.164821,Glen Waverley route from station to bus,600" "highway=trunk,trunk_link,tertiary,primary,secondary,bus_stop" railway=station pathway=-37.8797175,145.1629331,-37.8746245,145.1685465
+
+glen_waverley_amenities_buildings_and_station.svg
+nodejs mapconstructor.js sample_maps/glen_waverley_amenities_buildings_and_station.svg "centre=-37.875260,145.164821,Glen Waverley amenities buildings and station,600" "highway=trunk,trunk_link,tertiary,primary,secondary" railway=station amenity=fast_food,restaurant,pub building=true
+
+Glen_waverley_roads.svg:
+nodejs mapconstructor.js sample_maps/glen_waverley_roads.svg "centre=-37.875260,145.164821,Glen Waverley roads,600" "highway=trunk,trunk_link,tertiary,primary,secondary"
+
+
+Monash University buildings clayton:
+nodejs mapconstructor.js sample_maps/monash_clayton_buildings.svg "centre=-37.9114264,145.1326624,Monash University Clayton campus,500" building=true
+

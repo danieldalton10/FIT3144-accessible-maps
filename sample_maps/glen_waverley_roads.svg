@@ -1,0 +1,763 @@
+<svg height ="1200" width="1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<polyline id="way/4394430" points="309,1076 166,1025 115,1007 40,982" style="stroke:#ff0000" stroke-width="20" fill="#ff0000"/>
+<polyline id="way/5080298" points="334,1088 350,1093" style="stroke:#ff0001" stroke-width="20" fill="#ff0001"/>
+<polyline id="way/5080299" points="350,1093 336,1095" style="stroke:#ff0002" stroke-width="20" fill="#ff0002"/>
+<polyline id="way/5080300" points="320,1092 309,1076" style="stroke:#ff0003" stroke-width="20" fill="#ff0003"/>
+<polyline id="way/5080301" points="309,1076 326,1085" style="stroke:#ff0004" stroke-width="20" fill="#ff0004"/>
+<polyline id="way/5080332" points="854,49 834,176 831,194 817,288 802,382 797,417 788,483 786,495 784,510 780,532 769,606 763,643 743,777 738,804 737,814 730,863 718,944 713,979 704,1031 691,1114 689,1127" style="stroke:#ff0005" stroke-width="20" fill="#ff0005"/>
+<polyline id="way/5097445" points="1082,540 978,533 855,518" style="stroke:#ff0006" stroke-width="20" fill="#ff0006"/>
+<polyline id="way/5097447" points="367,437 419,443 519,455 531,457 531,457" style="stroke:#ff0007" stroke-width="20" fill="#ff0007"/>
+<polyline id="way/5326025" points="253,1193 259,1180 267,1168 295,1133 322,1099" style="stroke:#ff0008" stroke-width="20" fill="#ff0008"/>
+<polyline id="way/5326026" points="330,1101 284,1157 270,1176 267,1185 266,1194" style="stroke:#ff0009" stroke-width="20" fill="#ff0009"/>
+<polyline id="way/29757341" points="516,1152 512,1160 509,1166 507,1174" style="stroke:#ff000a" stroke-width="20" fill="#ff000a"/>
+<polyline id="way/29757358" points="492,1178 494,1173" style="stroke:#ff000b" stroke-width="20" fill="#ff000b"/>
+<polyline id="way/29766780" points="350,1093 380,1104 455,1132 469,1137" style="stroke:#ff000c" stroke-width="20" fill="#ff000c"/>
+<polyline id="way/29766837" points="591,1180 609,1179 627,1179 629,1180 632,1182 632,1187 630,1194" style="stroke:#ff000d" stroke-width="20" fill="#ff000d"/>
+<polyline id="way/29774730" points="533,953 536,937 543,887" style="stroke:#ff000e" stroke-width="20" fill="#ff000e"/>
+<polyline id="way/29774804" points="534,470 526,522 525,530 526,542 529,555 539,581 542,591 543,599 542,605 542,610 541,618 530,690 526,719 526,743 529,757 535,774 549,806 555,833 557,862 553,889" style="stroke:#ff000f" stroke-width="20" fill="#ff000f"/>
+<polyline id="way/29774810" points="546,951 544,963 530,1060 530,1069 530,1078" style="stroke:#ff0010" stroke-width="20" fill="#ff0010"/>
+<polyline id="way/45602396" points="504,1149 509,1135 513,1122 517,1113 519,1103 520,1093 519,1084 519,1073" style="stroke:#ff0011" stroke-width="20" fill="#ff0011"/>
+<polyline id="way/101926229" points="469,1137 490,1145 504,1149" style="stroke:#ff0012" stroke-width="20" fill="#ff0012"/>
+<polyline id="way/125501925" points="665,1195 669,1163 673,1140 674,1130" style="stroke:#ff0013" stroke-width="20" fill="#ff0013"/>
+<polyline id="way/146170801" points="700,482 723,486 757,490 769,492 786,495 826,502" style="stroke:#ff0014" stroke-width="20" fill="#ff0014"/>
+<polyline id="way/146170803" points="516,1152 528,1156 534,1158 546,1163 555,1168 591,1180" style="stroke:#ff0015" stroke-width="20" fill="#ff0015"/>
+<polyline id="way/146170806" points="531,457 615,468 665,476 700,482" style="stroke:#ff0016" stroke-width="20" fill="#ff0016"/>
+<polyline id="way/146170807" points="826,502 863,508 923,516 979,523 1082,540" style="stroke:#ff0017" stroke-width="20" fill="#ff0017"/>
+<polyline id="way/146170810" points="534,470 524,469" style="stroke:#ff0018" stroke-width="20" fill="#ff0018"/>
+<polyline id="way/146170812" points="855,518 815,514 795,511 784,510 766,508 742,505 705,501 679,497 662,494" style="stroke:#ff0019" stroke-width="20" fill="#ff0019"/>
+<polyline id="way/146170813" points="662,494 657,493 637,489 599,481 593,480 550,473 534,470" style="stroke:#ff001a" stroke-width="20" fill="#ff001a"/>
+<polyline id="way/146170814" points="524,469 504,465 456,458 418,452 364,444 345,440 329,437 216,421 167,412 115,405 15,390" style="stroke:#ff001b" stroke-width="20" fill="#ff001b"/>
+<polyline id="way/146172580" points="689,1127 684,1156 682,1176 681,1182 679,1193" style="stroke:#ff001c" stroke-width="20" fill="#ff001c"/>
+<polyline id="way/146172583" points="519,1073 517,1056 529,978 531,969 533,953" style="stroke:#ff001d" stroke-width="20" fill="#ff001d"/>
+<polyline id="way/146172585" points="530,1078 530,1097" style="stroke:#ff001e" stroke-width="20" fill="#ff001e"/>
+<polyline id="way/146172586" points="674,1130 675,1122 679,1098" style="stroke:#ff001f" stroke-width="20" fill="#ff001f"/>
+<polyline id="way/146298185" points="553,889 546,951" style="stroke:#ff0020" stroke-width="20" fill="#ff0020"/>
+<polyline id="way/146298190" points="543,887 544,882 545,869 546,856 546,844 544,830 542,819 539,810 524,776 519,759 515,737 515,715 518,688 528,626 530,612 532,599 532,587 530,578 527,570 519,552 515,535 514,526 515,520 522,480 524,469" style="stroke:#ff0021" stroke-width="20" fill="#ff0021"/>
+<polyline id="way/146300403" points="494,1173 499,1161 504,1149" style="stroke:#ff0022" stroke-width="20" fill="#ff0022"/>
+<polyline id="way/146300405" points="530,1097 529,1107 528,1118 526,1125 522,1138 516,1152" style="stroke:#ff0023" stroke-width="20" fill="#ff0023"/>
+<polyline id="way/146300413" points="665,1195 659,1196 655,1197 651,1196 638,1195 630,1194" style="stroke:#ff0024" stroke-width="20" fill="#ff0024"/>
+<polyline id="way/146300415" points="504,1149 516,1152" style="stroke:#ff0025" stroke-width="20" fill="#ff0025"/>
+<polyline id="way/153088987" points="630,1194 612,1189 591,1180" style="stroke:#ff0026" stroke-width="20" fill="#ff0026"/>
+<polyline id="way/198504449" points="679,1098 685,1061 699,977 720,811 721,802 733,724 736,707 745,656 746,647 757,579 761,538 764,519 766,508 769,492 772,470 809,250 818,192 821,173" style="stroke:#ff0027" stroke-width="20" fill="#ff0027"/>
+<polyline id="way/203583619" points="15,385 154,404 251,420 354,436 367,437" style="stroke:#ff0028" stroke-width="20" fill="#ff0028"/>
+<polyline id="way/204092536" points="1082,540 1163,552" style="stroke:#ff0029" stroke-width="20" fill="#ff0029"/>
+<metadata id="1401062652130" title="Glen Waverley roads 1200 by 1200" description="Automatically generated map" category="map">
+<summary>
+This map is centred around Glen Waverley roads. It contains 6 streets, and 0 points of interest.
+</summary>
+    <gravvitas>
+<id>way/4394430</id>
+      <interiorcolor>ff0000</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5080298</id>
+      <interiorcolor>ff0001</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5080299</id>
+      <interiorcolor>ff0002</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5080300</id>
+      <interiorcolor>ff0003</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5080301</id>
+      <interiorcolor>ff0004</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5080332</id>
+      <interiorcolor>ff0005</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Springvale Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5097445</id>
+      <interiorcolor>ff0006</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5097447</id>
+      <interiorcolor>ff0007</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5326025</id>
+      <interiorcolor>ff0008</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Myrtle Street</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/5326026</id>
+      <interiorcolor>ff0009</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Myrtle Street</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/29757341</id>
+      <interiorcolor>ff000a</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/29757358</id>
+      <interiorcolor>ff000b</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/29766780</id>
+      <interiorcolor>ff000c</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/29766837</id>
+      <interiorcolor>ff000d</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/29774730</id>
+      <interiorcolor>ff000e</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Snedden Drive</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/29774804</id>
+      <interiorcolor>ff000f</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Snedden Drive</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/29774810</id>
+      <interiorcolor>ff0010</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/45602396</id>
+      <interiorcolor>ff0011</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/101926229</id>
+      <interiorcolor>ff0012</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/125501925</id>
+      <interiorcolor>ff0013</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Springvale Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170801</id>
+      <interiorcolor>ff0014</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170803</id>
+      <interiorcolor>ff0015</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170806</id>
+      <interiorcolor>ff0016</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170807</id>
+      <interiorcolor>ff0017</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170810</id>
+      <interiorcolor>ff0018</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170812</id>
+      <interiorcolor>ff0019</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170813</id>
+      <interiorcolor>ff001a</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146170814</id>
+      <interiorcolor>ff001b</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146172580</id>
+      <interiorcolor>ff001c</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Springvale Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146172583</id>
+      <interiorcolor>ff001d</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146172585</id>
+      <interiorcolor>ff001e</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146172586</id>
+      <interiorcolor>ff001f</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Springvale Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146298185</id>
+      <interiorcolor>ff0020</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Snedden Drive</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146298190</id>
+      <interiorcolor>ff0021</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Snedden Drive</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146300403</id>
+      <interiorcolor>ff0022</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146300405</id>
+      <interiorcolor>ff0023</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Kingsway</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146300413</id>
+      <interiorcolor>ff0024</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/146300415</id>
+      <interiorcolor>ff0025</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/153088987</id>
+      <interiorcolor>ff0026</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Coleman Parade</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/198504449</id>
+      <interiorcolor>ff0027</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>Springvale Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/203583619</id>
+      <interiorcolor>ff0028</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+    <gravvitas>
+<id>way/204092536</id>
+      <interiorcolor>ff0029</interiorcolor>
+      <bordercolor>
+</bordercolor>
+<cornercolor>
+</cornercolor>
+<audio>
+</audio>
+<volume>
+</volume>
+<text>High Street Road</text>
+      <vibration>
+      </vibration>
+      <annotation>
+      </annotation>
+    </gravvitas>
+  </metadata>
+</svg>
