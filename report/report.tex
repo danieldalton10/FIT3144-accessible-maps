@@ -3,7 +3,7 @@
 \begin{document}
 \title{Accessibility of maps for the blind on mobile platforms}
 \author{Daniel Dalton}
-\date{April 2015}
+\date{June 2015}
 \maketitle
 \tableofcontents
 
@@ -300,8 +300,8 @@ valid.
 \textbf{Description:}\\
 Allow the user to pick points of interest they would like to see on the
 map in addition to the basic features such as streets. This filtering is
-done by displaying possible categories to filter. Categories should
-match those offered by the Google places API such as ``cafe''.\\
+done by displaying possible categories to filter. There shall be a wide
+range of categories to select from for example ``cafe''.\\
 \textbf{Preconditions:}\\
 A map of a given area is loaded and being presented.\\
 \textbf{Postconditions:}\\
@@ -413,6 +413,38 @@ Remove all pathways from the map.
   \hline
 \end{tabularx}
 
+\subsubsection{Finding points on the map}
+\noindent
+\textbf{Name:} Locating points on the map\\
+\textbf{Identifier:} UC5\\
+\textbf{Description:}\\
+It is time consuming for the user to explore the entire screen looking
+for specific features on the map. Allow the user to hear the features
+contained within a certain sub-area of the map.
+\textbf{Preconditions:}\\
+There is a map of an area being displayed on screen.\\
+\textbf{Postconditions:}\\
+No change to map.
+
+\noindent
+\textbf{Basic course of action:}\\
+\begin{tabularx}{\textwidth}{ |X|X| }
+  \textbf{User} & \textbf{System}\\
+  \hline
+  1. User touches and holds their finger on a single point of the screen. & \\
+  \hline
+  2. The user draws a circle around their finger currently held on the
+  map of any size. & \\
+  \hline
+  3. The user releases both fingers & \\
+  \hline
+  & 4. The system announces the streets and points of interest within
+  the area defined by the circle relative to the initial centre point
+  from step 1.\\
+  \hline
+  \hline
+\end{tabularx}
+
 \subsection{Web Service}
 
 The web service is invoked by means of HTTP parameters by means of a
@@ -422,7 +454,7 @@ service to fulfill its requirements to the UI.
 \subsubsection{Request an SVG map}
 \noindent
 \textbf{Name:} Produce SVG map\\
-\textbf{Identifier:} UC5\\
+\textbf{Identifier:} UC6\\
 \textbf{Description:}\\
 Construct an SVG map of an area of certain bounds with data from one or
 more third party services. Return the resulting data in the form of an
@@ -490,7 +522,7 @@ None\\
   & A2. Filter parameter contains a value such as ``cafe'' or
   ``restaurant'', system constructs a suitable query.\\
   \hline
-  & A3. The query is sent to the google places API.\\
+  & A3. The query is sent to the appropriate service.\\
   \hline
   & A4. System receives the place data back and converts it to a
   standardised form.\\
@@ -514,7 +546,138 @@ None\\
 \section{Design}
 
 \subsection{User Interface Design}
-  
+
+As specified within the requirements there are four key features of this
+application: loading of the map around a given area which includes
+features within a specified radius, the filtering of map features,
+marking a pathway/route between two points on the map and enhancing the
+exploration of the map from the point of view of a sight impaired
+user. The design of each of these four aspects will be discussed.
+
+\subsubsection{Opening the map}
+
+When the application is first invoked it is logical to display a map to
+the user of the current location. This is done by using the current
+location as determined by the device's location services. The user can
+then begin exploring the map of where they currently are.
+
+If the user wishes to look around another area they may load the map of
+this area by supplying the address. To do this the user will make use of
+the rota or two finger twist method. They will repeat this until they
+hear ``search''. A double tap with a single finger will present the
+search screen.
+
+The search screen is now active. This screen will consist of an input
+text field at the top labeled ``Address''. A search button will be
+located to the right of this. When the user is within the text field the
+system keyboard will be active and they may begin typing a location. As
+the location is being typed the potential candidate addresses appear
+below the text field. The user then either presses the search button or
+selects one of the suggested addresses.
+
+The map may fail to load due to either an invalid address being supplied
+or other area. If this is the case a standard error dialog should be
+displayed informing the user of such an event. The user can dismiss this
+dialog returning them to the search screen again.
+
+If the result is successful the map screen which appeared initially when
+the application was launched will re-appear, but this time for a map of
+the selected location.
+
+The two finger flick can be used to cycle to the ``radius''
+option. Flicking up will decrease the radius of the map while flicking
+down will increase the radius of the map. When the user finds a radius
+they are happy with they will double tap to refresh the map with the new
+radius. The radius specifies the points that shall be included within
+the map. For example a radius of 500 m will include only features that
+are within 500 metres of the centre point that the map is centred
+around.
+
+The map screen may be explored with a single finger. The feedback
+provided is controlled by the graViewer software. As the finger moves
+objects under the finger are announced to the user. These objects
+include roads and points of interest. Audio tones will be played for
+additional audible feedback. In addition the vibration finger sensors
+may be used for haptic feedback when exploring the map.
+
+\subsubsection{Filtering points of interest}
+
+A key consideration for the project is how to best filter the map so
+that it can be navigated in a practical manner. The user will have the
+liberty to choose what appears on the map so they can choose what fits
+within their user capabilities.
+
+Assuming the map screen is active showing a map of an area the user may
+use the conventional two finger twist voice over command until they hear
+``points of interest''. The user will then flick up and down with one
+finger to cycle between the potential options such as streets, cafes,
+restaurants, fast food, buildings, public transport etc. The user can
+double tap on any of these options. If the option was not previously
+selected the user will hear ``checked'' and the map will be updated to
+include features matching that parameter. eg. if cafes was now checked
+the map would be populated with all cafes within the mapped region. If
+the item was already selected eg. cafes a single finger double tap would
+announce ``unchecked'', and the cafes on the map would disappear. Note
+that the state of any of the options in this list (cafes, streets etc.)
+should have their state announced after the category name either checked
+or unchecked. 
+
+The user will have the freedom to select or unselect whatever items they
+would prefer. The map will be initialised with streets shown only.
+
+\subsubsection{Showing a path between two points on the map}
+
+A very important use case is traversing from a starting point to a
+destination point.
+
+Assuming the map screen is being displayed showing a map of a
+region. The user will touch and hold any area within the bounds of the
+map. That is the point must actually reside on the map such as a street
+or point of interest. The user will then move their second finger around the map locating the destination point. The user will then tap quickly
+on this second point. After performing the tap the first finger will be
+released. If an error occurs the system will announce this otherwise a
+pathway/route between the two points will be plotted on the map.
+
+The pathway will be in a different colour to other features on the
+map. As a result when the path is touched the street name will be
+announced, but a unique tone specific to the path will be played. This
+will reassure the user that they are indeed following the path.
+
+Between stages of the path eg. where the route twists and turns the
+relevant directional instructions will be spoken. For instance if the
+user is traversing along the route over street a, as the route is about
+to turn the system will announce ``route turns left onto street b 400
+metres''. This will be very helpful to not only give the user
+directional instructions, for real world navigation, but it will make
+following the route much easier on the screen of the ipad. Less time is
+wasted trying to constantly locate the route.
+
+The starting points and end points of the route will also be marked
+accordingly.
+
+The rota action (two finger twist) can be used to navigate to ``clear
+paths''. When this is double tapped the pathways will be removed as will
+the directional points discussed above. The map will behave normally
+again.
+
+\subsubsection{Finding points on the map}
+
+A challenging task for a blind user is to find a certain point of
+interest on a map that is potentially quite small hidden within other
+features. If the user has some idea where this is they can place their
+first finger roughly where they think this is. Next they will draw a
+circle around their first finger. The circle can be as large or as small
+as the user desires. All features that lie within this circle will be
+announced to the user including their direction from the centre
+point. The centre point is the point where the initial finger was first
+placed. For example ``building 1 12 o'clock''. The features will be
+announced in terms of distance. That is those closest to the centre are
+spoken first followed by those further out. The speech can be
+interrupted at any time by touching another point on the map.
+
+Note, the shape drawn does not need to be a circle just a general
+outline around the shape providing a boundary for including points.
+
 \subsection{Web Service Design}
 
 \section{Implementation}
