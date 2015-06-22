@@ -59,6 +59,9 @@ food outlets. Show a path from the Glen waverley station to Papa Jon's
 pizza restaurant.
 Write the output map to /tmp/out.svg
 
+Note, some sample maps exist in the sample_maps sub directory of this
+repository as well as the exact commands used to create these samples. 
+
 KNOWN BUGS
 1. Some images crash GraViewer. Haven't narrowed this down to a
 particular case, but happens when using a radius > 400 at showing monash
@@ -97,4 +100,4 @@ Daniel Dalton Monash University
 
 dadal2@student.monash.edu 
 
-Updated 18/06/2015
+Updated 22/06/2015
