@@ -1,5 +1,6 @@
 \documentclass[11pt,twoside,a4paper]{article}
 \usepackage{tabularx}
+\usepackage{url}
 \begin{document}
 \title{Accessibility of maps for the blind on mobile platforms}
 \author{Daniel Dalton}
@@ -584,7 +585,7 @@ If the result is successful the map screen which appeared initially when
 the application was launched will re-appear, but this time for a map of
 the selected location.
 
-The two finger flick can be used to cycle to the ``radius''
+The two finger twist can be used to cycle to the ``radius''
 option. Flicking up will decrease the radius of the map while flicking
 down will increase the radius of the map. When the user finds a radius
 they are happy with they will double tap to refresh the map with the new
@@ -679,12 +680,341 @@ Note, the shape drawn does not need to be a circle just a general
 outline around the shape providing a boundary for including points.
 
 \subsection{Web Service Design}
+\subsubsection{Class overview}
 
+The following classes will be created to implement the web service with
+the above features.
+\begin{itemize}
+\item Map: A class which represents a map on a grid with specified
+  dimensions. The map object holds all points that will appear on the
+  map.
+  \begin{itemize}
+  \item MapPoint: Represents a single point on the map eg. a circle.
+  \item MapPolyShape: Represents either a polyline or polygon on the
+    map. The PolyShape must refer to at least two coordinates for the
+    polyline and at least 3 for the polygon.
+  \end{itemize}
+\item Utilities: General utility methods. All of these methods are
+  static.
+\item Main: Main functions to make the program run.
+\item OpenStreet: Responsible for retrieving and adding geographical
+  data from the OSM database to the map.
+\item Route: Responsible for finding a route between two points (using
+  the here maps api) and adding this to the Map object. 
+\item Location: Represents a geographical location on the earth.
+\item Parameters: Represents the parameters for an open street map request. 
+\end{itemize}
+
+\subsubsection{Map}
+The Map class consists of the following public constructors:\\
+\begin{itemize}
+\item Map(Location centre, int radius): Construct a Map around centre
+  with a specific radius.
+\end{itemize}
+The Map class has the following public methods:
+\begin{itemize}
+\item void addPoint(String id, double lat, double lng, String name, String
+  description): Add a location on the earth to this map instance with a
+  given name and unique id.
+\item void addLine (String id, double[][] coordinates, String name): Add a
+  polyline to the map which is a location with the name specified and a
+  unique id. The polyline passes through the geographical coordinates
+  specified.
+\item void addPolygon (String id, double[][] coordinates, String name): Add a
+  polygon to the map. It passes through the specified geographical
+  coordinates and has the name and id specified. 
+\end{itemize}
+The Map has the following members:
+\begin{itemize}
+\item int height: Height of the map in svg pixels.
+\item int width: Width of the map in SVG pixels
+\item Location centre: A Location object that represents the
+  geographical point the map is centred around.
+\item MapPoint[] mapPoints: Array of MapPoints on the map.
+\item PolyShape[] mapLines: Array of polylines on the Map.
+\item MapPolyShape[] mapPolygons: Array of polygons (buildings) on the map.
+\item MapPoint mapCentre: Represents the point centre on the map
+  i.e. as a mapPoint.
+\end{itemize}
+
+MapPoint subclasses Map and has the following public constructor:
+\begin{itemize}
+\item MapPoint (Location point, double distance, double angle, Location
+  MapPoint centre): Construct a point on a map for a given location
+  (point). Calculates the position of the x and y values of this point
+  on the actual map based on the MapPoint of the centre.
+\item MapPoint (double x, double y): Set a MapPoint with x and y values.
+\end{itemize}
+Members of MapPoint:
+\begin{itemize}
+\item double x: x coordinate on the map for this point.
+\item double y: y coordinate on the map for this point.
+\item String name: The name of this point.
+\item String description: The extra description for this point.
+\item String id: The unique id of this point. 
+\end{itemize}
+
+The MapPolyShape class subclasses Map.
+The MapPolyShape class has the following public constructors:
+\begin{itemize}
+\item MapPolyShape (String id, double[][] coordinates, String name):
+  Create a PolyShape on the map for the given coordinates. 
+\end{itemize}
+Fields of the MapPolyShape class:
+\begin{itemize}
+\item String id: unique Id of this polyshape.
+\item String name: The name of this polyshape.
+\item double[] coordinates: The map coordinates for this shape on the map.
+\end{itemize}
+
+\subsubsection{Utilities}
+The Utilities class has the following public methods they are all static:
+\begin{itemize}
+\item double distance (Location location1, Location location2): Returns
+  the distance between location1 and location2
+\item double toRadians(double deg): Return deg in radians.
+\item double initialBearing(Location location1, Location location2): Return the
+  initial bearing from location1 to location2.
+\item toSVG(Map map): Return a string of the svg image that is created
+  from map.
+\end{itemize}
+
+\subsubsection{Main}
+The Main class has the following methods:
+\begin{itemize}
+\item static bool handleCommandLineArguments(String[] argv): Check to see if
+  command line arguments are valid and set up request parameters.
+\item static void run(): Runs the application with the given parameters
+  set by handleCommandLineArguments and coordinates the requests to
+  third party apis and the writing of the svg output.
+\end{itemize}
+The Main class has the following fields:
+\begin{itemize}
+\item Map map: The map for this session
+\item Parameters parameters: parameters for this request.
+\item String outputFile: The path to the outputFile for the SVG image.
+\item Location[] points: The points involved in any path for this map.
+\item Location centre: Centre of this map.
+\item int radius: Radius of area the map is for. 
+\end{itemize}
+\subsubsection{OpenStreet}
+The OpenStreet class has the following public static method:
+\begin{itemize}
+\item void readFromOSM (Map map, Function(Map map), Parameters
+  parameters): Add data to the map from open street and invoke the
+  callback once finished.
+\end{itemize}
+
+\subsubsection{Route}
+The Route class consists of the following public static methods:
+\begin{itemize}
+\item void readRoute(Location[] points, Map map, function(Map map)): Add a
+  route between two points to the map and invoke the callback once finished.
+\item void readRouteFromFile(String file, Map map, function (Map map)):
+  Add the route specified in file to the map and then invoke the
+  callback. 
+\end{itemize}
+
+\subsubsection{Location}
+The Location class consists of the following public constructors:
+\begin{itemize}
+\item Location (double lat, double lng): Initialise a location with the
+  specified lat and lng coordinates.
+\item Location (double lat, double lng, String id, String name, String
+  description): Initialise a Location with the specified lat lng, name,
+  id and description. 
+\end{itemize}
+The Location class has the following fields:
+\begin{itemize}
+\item String name: Name of this location. 
+\item String description: Extra description about this location.
+\item String id: Unique id for this location. 
+\item double lat: Latitude of this location. 
+\item double lng: Longitude for this location. 
+\end{itemize}
+\subsubsection{Parameters}
+The Parameters class consists of the following public constructors:
+\begin{itemize}
+\item Parameters(): Initialise empty parameters object. 
+\end{itemize}
+
+The Parameters class has getters and setters for each individual
+parameter.
+
+\subsubsection{Class relationships}
+The following relationships exist between the classes.
+\begin{itemize}
+\item Map has many MapPoint
+\item Map has many MapPolyShape
+\item Map has one Location.
+\item Map depends on Utilities
+\item Map depends on Location
+\item Map depends on MapPoint
+\item Map depends on MapPolyShape
+\end{itemize}
+\begin{itemize}
+\item MapPoint depends on a MapPoint
+\item MapPoint depends on Location
+\item MapPoint depends on Utilities 
+\end{itemize}
+\begin{itemize}
+\item MapPolyShape depends on MapPoint
+\item MapPolyShape depends on Location
+\item MapPolyShape depends on Utilities 
+\end{itemize}
+\begin{itemize}
+\item Utilities depends on Map
+\item Utilities depends on Location 
+\end{itemize}
+\begin{itemize}
+\item OpenStreet depends on Parameters
+\item OpenStreet depends on Map
+\end{itemize}
+\begin{itemize}
+\item Route depends on Location
+\item Route depends on Map
+\end{itemize}
+\begin{itemize}
+\item Main has many Location.
+\item Main has 1 Parameters
+\item Main has 1 Map
+\item Main depends on OpenStreet
+\item Main depends on Route
+\item Main depends on Utilities 
+\end{itemize}
 \section{Implementation}
 
+The implementation of the web service is located in git and can be found
+at: \url{https://github.com/danieldalton10/FIT3144-accessible-maps.git}.
+
+\subsection{Platform and Programming languages}
+
+The web service will be built using javascript. It has been designed to
+run under nodejs. Nodejs is built using  Chrome's JavaScript runtime
+environment and is designed for building fast and scalable distributed
+network applications.
+
+Nodejs will make the implementation of this web service very straight
+forward. Many libraries and apis that are required can be installed very
+easily with npm and used in the code as simple function calls. It also
+provides the flexibility of making the service cross platform and usable
+in a wide range of situations.
+
+Javascript has been used so that the system can be portable. In addition
+it allows the system to be used by a variety of platforms on a variety
+of devices. The idea is that local mobile applications will call the
+web service for an svg map given a set of parameters. Not only does this
+take the load off the mobile device to perform any intensive processing
+it also ensures that all maps will be using up to date data. However,
+the most attractive gain here is that the service can be used by many
+applications on many devices. It can be used for GraViewer under IOS and
+in future it could be used to implement a mapping app on
+android. Javascript is relatively high level and will facilitate the
+solution to be implemented in a timely fashion. Many of the API have a
+javascript interface available so it makes retrieving data from third
+party's much more straight forward.
+
+Git will be used to manage the project. This will ensure that code is
+centrally located and can be viewed and modified by relevant people from
+anywhere. It also makes sure the code will not be lost in case of a
+disaster. However, the most appealing reason git was chosen is for its
+version control capabilities. This allows features to be added
+concurrently thanks to the power of branching. Code can be added and
+tested separately to other features if desired. In addition a complete
+history of changes exists so the code can be reverted back to any of its
+previous states at any time. Changes between revisions can be compared
+to see what could possibly have introduced a fault in a particular
+version. Git will be used to manage the code base for the web service
+component of this project.
+
+\subsection{Code layout}
+
+The web service is spread across three javascript files.
+
+The mapconstructor.js is the main file of the project and is used to run
+the web service currently under nodejs. It currently holds the Map class
+(and it's inner classes) as well as the Main class.
+
+openstreet.js holds the OpenStreet class and is used for retrieving data
+and updating the map with the open street data. This file is called upon
+by mapconstructor.js.
+
+The final file is the route.js file. It is responsible for implementing
+the Route class. It will manage communication with the third party
+here maps API and updating of the map with the retrieved data.
+
 \section{Results and Evaluation}
+\subsection{Current work}
+As of June 2015 the web service component of the project has been
+implemented. Work on the mobile application to interface with the web
+service and GraViewer has not yet started.
+
+The web service can currently be controlled by command line arguments
+under nodejs. The README file within the git repository has details and
+examples of how the web service application is to be used. In addition
+the --help switch will provide a quick usage summary.
+
+The value of the project can certainly be appreciated. A map can be
+generated by the web service on a computer and the resulting SVG is
+uploaded to a Google drive folder. The file can be then opened with
+GraViewer on the ipad.
+
+The map can be explored as any other image would and points of interest
+and roads can be found by the user. The spatial layout and details of
+the map can now be explored by GraViewer. One of the main objectives of
+the project has also been achieved. A pathway can be marked on the map
+between two points. At this stage the pathway can be found by the vision impaired user using graViewer and provides functionality to make
+the path easy to follow.
+
+The web service itself has filtering implemented as per the design of
+this project. The web service currently allows the creation of a map
+with a range of filters. Some of these include the type of roads
+(residential, primary, secondary etc), amenities (cafes, restaurants,
+fast food etc), railways and buildings. 
+\subsection{Future work}
+
+The web service provides all the required basic functionality. Future
+work will improve the SVG output by using different colours to
+represent roads, points of interest and routes. This is reasonably
+straight forward to implement and will provide a better experience with
+graviewer.
+
+The web service will be extended to mark intersections on the map. This
+means that when a user travels along a road they will be notified of
+intersecting streets. The web service will be updated to take advantage
+of asynchronous processing offered by the nodejs apis. This relates to
+reading data from a file or a http request. This means that requests
+such as open street maps and routing (here maps), can be done
+concurrently. The open street data is currently retrieved from a local
+file. A way to do this by means of a third party api will be developed
+in order to use up to date data. Some options are migrating to here maps
+for data retrieval, but this requires some extra consideration including
+the licensing from here maps. 
+
+The placement of objects on the map is reasonably good currently. It
+should be investigated whether this can be improved at all and working
+out ways to scale objects would also be useful. The map can sometimes
+become cluttered. Error handling has only been implemented at a basic
+level and this can be improved by passing down more details in the
+request stage.
 
 \section{Conclusion}
+Ultimately, this project aims to provide an accessible way for sight
+impaired users to interpret maps. Their are two components the web
+service and a local application to interface with the web service. The
+goal of this 14 week project was to create a web service that can
+generate SVG images that can be used by graViewer. This has been
+achieved and maps of an area can be made by means of a nodejs command
+line driven applications. The maps can then be loaded onto graViewer for
+exploration by the blind user.
+
+The maps provide a large degree of very structured useful
+information. The future of this project will be to write a local
+application to communicate with the web service such that maps can be
+made accessible on the device on the go. The web service can be improved
+as discussed previously. Hence, the web service addresses the major
+goals and objectives of the project and presents very usable maps
+suitable for use by graViewer. 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv}
 \end{document}
