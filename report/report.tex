@@ -360,17 +360,15 @@ No change to map if a path could not be found.
 \begin{tabularx}{\textwidth}{ |X|X| }
   \textbf{User} & \textbf{System}\\
   \hline
-  1. User presses and holds their finger on point a, the first point. &
+  1. User Locates and double taps the first point. &
   \\
   \hline
-  2. The user taps a second (distinct) point on the map (point B). & \\
+  2. The user locates and double taps a second (distinct) point on the map (point B). & \\
   \hline
-  3. The user releases both fingers & \\
-  \hline
-  & 4. System calculates and presents a path between the points on the
+  & 3. System calculates and presents a path between the points on the
   map. An overview of this path is spoken. back to the user. [Alternate A]\\
   \hline
-  5. User explores map with a single finger. & 6. When the user touches
+  4. User explores map with a single finger. & 5. When the user touches
   the path the pathway tone is played back to the user.\\
   \hline
 \end{tabularx}
@@ -380,10 +378,10 @@ No change to map if a path could not be found.
 \begin{tabularx}{\textwidth}{ |X|X| }
   \textbf{User} & \textbf{System}\\
   \hline
-  & A4. System could not find a path between the two points, error
+  & A3. System could not find a path between the two points, error
   message is spoken.\\
   \hline
-  & A5. Use case ends\\
+  & A4. Use case ends\\
   \hline
 \end{tabularx}
 
@@ -434,15 +432,14 @@ No change to map.
   \hline
   1. User touches and holds their finger on a single point of the screen. & \\
   \hline
-  2. The user draws a circle around their finger currently held on the
-  map of any size. & \\
+  2. User double taps on a point some distance away from the initial
+  point they are still holding. & \\
   \hline
-  3. The user releases both fingers & \\
+  3. The user releases the initial finger. & \\
   \hline
-  & 4. The system announces the streets and points of interest within
-  the area defined by the circle relative to the initial centre point
-  from step 1.\\
-  \hline
+  & 4. The system creates a circle around the initial point with
+  radius equal to the distance between the initial point and the second
+  point and announces all points of interest and streets within the circle.\\
   \hline
 \end{tabularx}
 
@@ -632,11 +629,11 @@ A very important use case is traversing from a starting point to a
 destination point.
 
 Assuming the map screen is being displayed showing a map of a
-region. The user will touch and hold any area within the bounds of the
+region. The user will double tap any area within the bounds of the
 map. That is the point must actually reside on the map such as a street
-or point of interest. The user will then move their second finger around the map locating the destination point. The user will then tap quickly
-on this second point. After performing the tap the first finger will be
-released. If an error occurs the system will announce this otherwise a
+or point of interest. The user will then move their second finger around
+the map locating the destination point. The user will then double tap 
+on this second point. If an error occurs the system will announce this otherwise a
 pathway/route between the two points will be plotted on the map.
 
 The pathway will be in a different colour to other features on the
@@ -666,18 +663,28 @@ again.
 A challenging task for a blind user is to find a certain point of
 interest on a map that is potentially quite small hidden within other
 features. If the user has some idea where this is they can place their
-first finger roughly where they think this is. Next they will draw a
-circle around their first finger. The circle can be as large or as small
-as the user desires. All features that lie within this circle will be
+first finger roughly where they think this is. Next they will move their
+second finger some distance away from the initial point and double
+tap. The initial finger can then be released.
+The circle can be as large or as small
+as the user desires. A circle with a radius equal to the distance
+between the initial point and the second point touched will be created
+surrounding the initial point. It does not matter if the circle extends
+passed the edge of the map on a given side as only points up until the
+edge of the map on this side will be included. In the other directions
+which are not restricted by the map dimensions i.e. where traversing
+from the initial point outwards by the specified distance does not touch
+a map edge no limitations will exist (points within the radius of the
+circle will be included). 
+All features that lie within this circle will be
 announced to the user including their direction from the centre
 point. The centre point is the point where the initial finger was first
 placed. For example ``building 1 12 o'clock''. The features will be
 announced in terms of distance. That is those closest to the centre are
-spoken first followed by those further out. The speech can be
-interrupted at any time by touching another point on the map.
-
-Note, the shape drawn does not need to be a circle just a general
-outline around the shape providing a boundary for including points.
+spoken first followed by those further out. If objects overlap i.e. exist both within and
+outside of the theoretical circle they will be included in the spoken
+list of places and roads.
+The speech can be interrupted at any time by touching another point on the map.
 
 \subsection{Web Service Design}
 \subsubsection{Class overview}
